@@ -7,7 +7,7 @@ const ban: Command = {
     category: Category.Moderation,
     description:
         "Bans a user from this server, you must have the ban_members permission to run this command",
-    useage: `ban {User} [reason]`,
+    useage: `${prefix}ban {User} [reason]`,
     run: async (message, ...args) => {
         if (!message.member?.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");

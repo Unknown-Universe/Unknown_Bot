@@ -7,7 +7,7 @@ const unban: Command = {
     category: Category.Moderation,
     description:
         "Unbans a user with {User ID} from this server, requres ban_members permission",
-    useage: `unban {User ID}`,
+    useage: `${prefix}unban {User ID}`,
     run: async (message, ...args) => {
         if (!message.member?.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");

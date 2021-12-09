@@ -6,7 +6,7 @@ const purge: Command = {
     name: "purge",
     category: Category.Moderation,
     description: "Clears {number} of messages from a channel",
-    useage: `purge {number}`,
+    useage: `${prefix}purge {number}`,
     run: async (message, ...args) => {
         if (!message.member?.permissions.has("MANAGE_MESSAGES")) {
             await message.reply("You dont have permission to use this");

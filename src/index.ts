@@ -12,6 +12,8 @@ export function parseUserId(text: string): string | null {
 
 export const client = new Client({ intents: 4609 });
 
+export const prefix = "~";
+
 const commandDir = path.join(__dirname, "commands");
 export const commands: Array<Command> = [];
 
@@ -19,8 +21,6 @@ for (const file of fs.readdirSync(commandDir)) {
     if (!file.endsWith(".js")) continue;
     commands.push(require(path.join(commandDir, file)).default as Command);
 }
-
-export const prefix = "~";
 
 client.once("ready", async () => {
     console.log("Bot Online");
