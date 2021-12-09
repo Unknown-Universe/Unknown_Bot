@@ -2,6 +2,7 @@ import { Client, User } from "discord.js";
 import fs, { readdirSync } from "fs";
 import path from "path";
 import dotenv from "dotenv";
+import { help } from "./commands/Help";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ export const client = new Client({ intents: 4609 });
 //     commands.push(require(path.join(commandDir, file)) as Command);
 // }
 
-const prefix = "~";
+export const prefix = "~";
 
 client.once("ready", async () => {
     console.log("Bot Online");
@@ -36,11 +37,11 @@ client.on("messageCreate", async (message) => {
         let text = message.content;
 
         if (text.startsWith(prefix))
-            text = text.slice(prefix.length).trimLeft();
+            text = text.slice(prefix.length).trimStart();
         else if (text.startsWith(ping))
-            text = text.slice(ping.length).trimLeft();
+            text = text.slice(ping.length).trimStart();
         else if (text.startsWith(nick))
-            text = text.slice(nick.length).trimLeft();
+            text = text.slice(nick.length).trimStart();
         else return;
 
         const [name, ...args] = text.split(/\s+/);
@@ -49,44 +50,7 @@ client.on("messageCreate", async (message) => {
         if (name === "ping") {
             await message.reply("pong!");
         } else if (name === "help") {
-            await message.channel.send({
-                embeds: [
-                    {
-                        title: "Help",
-                        color: 0xa6400d,
-                        fields: [
-                            {
-                                name: `Prefix: ${prefix}`,
-                                value: "{} are required fields, and [] are optional fields",
-                            },
-                            {
-                                name: `${prefix}help`,
-                                value: "Shows this list",
-                            },
-                            {
-                                name: `${prefix}ping`,
-                                value: "Pong",
-                            },
-                            {
-                                name: `${prefix}message {User} {Message}`,
-                                value: "Sends {Message} to {User} in a DM",
-                            },
-                            {
-                                name: `${prefix}ban {User} [reason]`,
-                                value: "Bans {User} from the server, requires ban_member permission and a higher role then the person your trying to ban",
-                            },
-                            {
-                                name: `${prefix}hardban {User} {Time} [reason]`,
-                                value: "Bans {User} from the server, and wipes messages in the past {Time} days, maximum 7",
-                            },
-                            {
-                                name: `${prefix}unban {User}`,
-                                value: "Unbans {User} from this server, requires ban_member permission",
-                            },
-                        ],
-                    },
-                ],
-            });
+            await help.run(message);
         } else if (name === "message") {
             if (!args.length) {
                 await message.reply("No Arguments Given");
