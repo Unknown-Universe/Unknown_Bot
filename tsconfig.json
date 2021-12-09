@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "inlineSourceMap": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitOverride": true,
+        "strict": true,
+        "module": "commonjs",
+        "target": "esnext",
+        "moduleResolution": "node",
+        "outDir": "dist"
+    },
+    "include": ["src/**/*"]
+}
