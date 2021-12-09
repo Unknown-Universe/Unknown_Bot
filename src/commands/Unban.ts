@@ -1,4 +1,4 @@
-import { parseUserId, prefix } from "..";
+import { parseUserId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 
@@ -7,7 +7,7 @@ const unban: Command = {
     category: Category.Moderation,
     description:
         "Unbans a user with {User ID} from this server, requres ban_members permission",
-    useage: `${prefix}unban {User ID}`,
+    useage: `unban {User ID}`,
     run: async (message, ...args) => {
         if (!message.member?.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");

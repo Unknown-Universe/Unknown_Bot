@@ -1,4 +1,4 @@
-import { commands, prefix } from "..";
+import { commands } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 
@@ -6,7 +6,7 @@ const help: Command = {
     name: "help",
     description: "Shows a list of commands.",
     category: Category.Utilities,
-    useage: `${prefix}help`,
+    useage: `help`,
     run: async (message, ...args) => {
         await message.channel.send({
             embeds: [

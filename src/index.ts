@@ -1,8 +1,9 @@
-import { Client, User } from "discord.js";
+import { Client, Guild, User } from "discord.js";
 import fs, { readdirSync } from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { Command } from "./command";
+import { fetchGuild, GuildModel } from "./database";
 
 dotenv.config();
 
@@ -11,8 +12,6 @@ export function parseUserId(text: string): string | null {
 }
 
 export const client = new Client({ intents: 4609 });
-
-export const prefix = "~";
 
 const commandDir = path.join(__dirname, "commands");
 export const commands: Array<Command> = [];
@@ -33,21 +32,30 @@ client.on("messageCreate", async (message) => {
             return;
         }
 
+        const prefix = (await fetchGuild(message.guildId!)).prefix;
+
         const ping = `<@${client.user!.id}>`;
         const nick = `<@!${client.user!.id}>`;
         let text = message.content;
-
-        if (text.startsWith(prefix))
+        let mentioned: boolean;
+        if (text.startsWith(prefix)) {
             text = text.slice(prefix.length).trimStart();
-        else if (text.startsWith(ping))
+            mentioned = false;
+        } else if (text.startsWith(ping)) {
             text = text.slice(ping.length).trimStart();
-        else if (text.startsWith(nick))
+            mentioned = true;
+        } else if (text.startsWith(nick)) {
             text = text.slice(nick.length).trimStart();
-        else return;
+            mentioned = true;
+        } else return;
 
         const [name, ...args] = text.split(/\s+/);
-        if (!name.length) return;
-
+        if (!name.length) {
+            if (mentioned) {
+                await message.reply(`This servers prefix is ${prefix}`);
+            }
+            return;
+        }
         const command = commands.find(
             (command) => command.name.toLowerCase() === name.toLowerCase()
         );
@@ -59,6 +67,10 @@ client.on("messageCreate", async (message) => {
         console.error(error);
         return;
     }
+});
+
+client.on("guildDelete", async (guild) => {
+    await GuildModel.deleteMany({ id: guild.id });
 });
 
 client.login(process.env.TOKEN);
