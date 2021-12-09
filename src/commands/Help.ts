@@ -2,10 +2,11 @@ import { prefix } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 
-export const help: Command = {
+const help: Command = {
     name: "help",
     description: "Shows a list of commands.",
     category: Category.Utilities,
+    useage: `${prefix}help`,
     run: async (message, ...args) => {
         await message.channel.send({
             embeds: [
@@ -47,3 +48,5 @@ export const help: Command = {
         });
     },
 };
+
+export default help;
