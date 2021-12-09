@@ -8,5 +8,6 @@ const example: Command = {
     description: "",
     useage: "",
     run: async (message, ...args) => { }
-
 }
+
+export default example;
