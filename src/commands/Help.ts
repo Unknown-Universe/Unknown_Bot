@@ -23,10 +23,6 @@ const help: Command = {
                             value: "Shows this list",
                         },
                         {
-                            name: `${prefix}ping`,
-                            value: "Pong",
-                        },
-                        {
                             name: `${prefix}message {User} {Message}`,
                             value: "Sends {Message} to {User} in a DM",
                         },
