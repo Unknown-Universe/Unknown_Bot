@@ -1,7 +1,7 @@
-export enum Category {
-    Moderation,
-    Utilities,
-    Configuration,
-    Information,
-    Entertainment,
+export const enum Category {
+    Moderation = "Moderation",
+    Utilities = "Utilities",
+    Configuration = "Configuration",
+    Information = "Information",
+    Entertainment = "Entertainment",
 }
