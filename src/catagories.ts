@@ -4,4 +4,5 @@ export const enum Category {
     Configuration = "Configuration",
     Information = "Information",
     Entertainment = "Entertainment",
+    Restricted = "Restricted",
 }

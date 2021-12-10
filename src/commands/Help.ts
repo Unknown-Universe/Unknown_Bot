@@ -13,14 +13,20 @@ const help: Command = {
                 {
                     title: "Help",
                     color: 0xa6400d,
-                    fields: commands.map((command) => {
-                        return {
-                            name:
-                                command.name.slice(0, 1).toUpperCase() +
-                                command.name.slice(1),
-                            value: command.useage + `\n` + command.description,
-                        };
-                    }),
+                    fields: commands
+                        .filter(
+                            (command) =>
+                                command.category !== Category.Restricted
+                        )
+                        .map((command) => {
+                            return {
+                                name:
+                                    command.name.slice(0, 1).toUpperCase() +
+                                    command.name.slice(1),
+                                value:
+                                    command.useage + `\n` + command.description,
+                            };
+                        }),
                 },
             ],
         });

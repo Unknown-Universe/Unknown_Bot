@@ -49,7 +49,7 @@ client.on("messageCreate", async (message) => {
             mentioned = true;
         } else return;
 
-        const [name, ...args] = text.split(/\s+/);
+        const [name, ...args] = text.split(" ");
         if (!name.length) {
             if (mentioned) {
                 await message.reply(`This servers prefix is ${prefix}`);
