@@ -23,7 +23,7 @@ for (const file of fs.readdirSync(commandDir)) {
 
 client.once("ready", async () => {
     console.log("Bot Online");
-    client.user!.setActivity({ type: "LISTENING", name: "~help" });
+    client.user!.setActivity({ type: "WATCHING", name: "Over Your Servers" });
 });
 
 client.on("messageCreate", async (message) => {

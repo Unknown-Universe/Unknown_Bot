@@ -10,6 +10,10 @@ const prefix: Command = {
     run: async (message, ...args) => {
         const guild = message.guild!;
 
+        if (!message.member!.permissions.has("MANAGE_GUILD")) {
+            await message.reply("You dont have permission to run this command");
+            return;
+        }
         if (!args.length) {
             await message.reply("Please give a valid prefix");
             return;
