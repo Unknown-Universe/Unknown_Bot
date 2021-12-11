@@ -16,7 +16,8 @@ const help: Command = {
                     fields: commands
                         .filter(
                             (command) =>
-                                command.category !== Category.Restricted
+                                command.category !== Category.Restricted &&
+                                command.category !== Category.ServerSetup
                         )
                         .map((command) => {
                             return {
