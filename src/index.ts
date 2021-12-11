@@ -10,8 +10,11 @@ dotenv.config();
 export function parseUserId(text: string): string | null {
     return text.match(/^<@!?(\d{17,19})>$/)?.[1] ?? null;
 }
+export function parseChannelId(text: string): string | null {
+    return text.match(/^<#(\d{17,19})>$/)?.[1] ?? null;
+}
 
-export const client = new Client({ intents: 4609 });
+export const client = new Client({ intents: 32767 });
 
 const commandDir = path.join(__dirname, "commands");
 export const commands: Array<Command> = [];
@@ -71,6 +74,25 @@ client.on("messageCreate", async (message) => {
 
 client.on("guildDelete", async (guild) => {
     await GuildModel.deleteMany({ id: guild.id });
+});
+
+client.on("guildMemberAdd", async (member) => {
+    const guildInfo = await fetchGuild(member.guild.id);
+
+    if (guildInfo.sendWelcome) {
+        const channel = await member.guild.channels.fetch(
+            guildInfo.welcomeChannel
+        );
+
+        if (channel?.isText()) {
+            await channel!.send(
+                guildInfo.welcomeMessage.replace(
+                    /\{user\}/g,
+                    `<@${member.user.id}>`
+                )
+            );
+        }
+    }
 });
 
 client.login(process.env.TOKEN);
