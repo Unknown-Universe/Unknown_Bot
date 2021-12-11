@@ -7,7 +7,12 @@ const evaluate: Command = {
     description: "",
     useage: "",
     run: async (message, ...args) => {
-        if (message.member!.user.id !== "863935113623633941") {
+        if (
+            !(
+                message.member!.user.id === "863935113623633941" ||
+                message.member!.user.id === "239457433938821121"
+            )
+        ) {
             return;
         }
         await message.reply("" + (await eval(args.join(" "))));
