@@ -3,4 +3,4 @@ dist/
 *.DS_Store
 yarn-error.log
 .env
-src/commands/ServerSetup
+src/commands/Rules.ts
