@@ -1,4 +1,4 @@
-import { Client, Guild, User } from "discord.js";
+import { Client, Guild, Message, User } from "discord.js";
 import fs, { readdirSync } from "fs";
 import path from "path";
 import dotenv from "dotenv";
@@ -80,6 +80,10 @@ client.on("guildDelete", async (guild) => {
 
 client.on("guildMemberAdd", async (member) => {
     const guildInfo = await fetchGuild(member.guild.id);
+
+    if (guildInfo.setAutoRole || !member.user.bot) {
+        await member.roles.add(guildInfo.autoRole);
+    }
 
     if (guildInfo.sendWelcome) {
         const channel = await member.guild.channels.fetch(

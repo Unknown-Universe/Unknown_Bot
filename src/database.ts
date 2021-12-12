@@ -8,6 +8,8 @@ interface Guild {
     sendWelcome: boolean;
     welcomeChannel: string;
     welcomeMessage: string;
+    autoRole: string;
+    setAutoRole: boolean;
 }
 
 export const GuildModel = model<Guild>(
@@ -21,6 +23,8 @@ export const GuildModel = model<Guild>(
             type: String,
             default: "Welcome {user} to the server",
         },
+        autoRole: { type: String },
+        setAutoRole: { type: Boolean, default: false },
     })
 );
 
