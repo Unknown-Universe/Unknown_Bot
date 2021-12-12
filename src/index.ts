@@ -81,7 +81,7 @@ client.on("guildDelete", async (guild) => {
 client.on("guildMemberAdd", async (member) => {
     const guildInfo = await fetchGuild(member.guild.id);
 
-    if (guildInfo.setAutoRole || !member.user.bot) {
+    if (guildInfo.setAutoRole && !member.user.bot) {
         await member.roles.add(guildInfo.autoRole);
     }
 
