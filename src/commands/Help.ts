@@ -169,27 +169,3 @@ const help: Command = {
 };
 
 export default help;
-
-// await message.channel.send({
-//     embeds: [
-//         {
-//             title: "Help",
-//             color: 0xa6400d,
-//             fields: commands
-//                 .filter(
-//                     (command) =>
-//                         command.category !== Category.Restricted &&
-//                         command.category !== Category.ServerSetup
-//                 )
-//                 .map((command) => {
-//                     return {
-//                         name:
-//                             command.name.slice(0, 1).toUpperCase() +
-//                             command.name.slice(1),
-//                         value:
-//                             command.useage + `\n` + command.description,
-//                     };
-//                 }),
-//         },
-//     ],
-// });
