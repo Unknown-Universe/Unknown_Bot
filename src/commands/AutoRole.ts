@@ -19,6 +19,20 @@ const AutoRole: Command = {
             return;
         }
 
+        const guildInfo = await fetchGuild(message.guild!.id);
+
+        if (args[0] === "true" || args[0] === "True") {
+            guildInfo.setAutoRole = true;
+            await guildInfo.save();
+            await message.reply("Turned on autorole");
+            return;
+        } else if (args[0] === "false" || args[0] === "False") {
+            guildInfo.setAutoRole = false;
+            await guildInfo.save();
+            await message.reply("Turned off autorole");
+            return;
+        }
+
         const role = parseRoleId(args[0]);
 
         if (!role) {
@@ -30,7 +44,6 @@ const AutoRole: Command = {
             return;
         }
 
-        const guildInfo = await fetchGuild(message.guild!.id);
         await message.reply(`Set default role to ${role}`);
         guildInfo.autoRole = role;
         await guildInfo.save();
@@ -38,17 +51,6 @@ const AutoRole: Command = {
             return;
         }
 
-        if (args[1] === "true" || args[1] === "True") {
-            guildInfo.setAutoRole = true;
-            await guildInfo.save();
-            await message.reply("Turned on autorole");
-            return;
-        } else if (args[1] === "false" || args[1] === "False") {
-            guildInfo.setAutoRole = false;
-            await guildInfo.save();
-            await message.reply("Turned off autorole");
-            return;
-        }
         return;
     },
 };
