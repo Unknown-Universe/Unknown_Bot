@@ -40,13 +40,16 @@ const help: Command = {
             });
         } else {
             const key = Object.keys(categories).find(
-                (category) => category.toLowerCase() === category.toLowerCase()
+                (iCategory) =>
+                    iCategory.toLowerCase() === category.toLowerCase()
             );
             if (!key) {
                 await message.reply("That is not a valid category.");
                 return;
             }
             const items = categories[key];
+            console.log(category);
+
             await message.reply({
                 embeds: [
                     {

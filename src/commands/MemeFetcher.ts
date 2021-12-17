@@ -22,7 +22,8 @@ interface Meme {
 async function fetchMeme(): Promise<Meme> {
     return (
         await RedditImageFetcher.fetch({
-            type: "meme",
+            type: "custom",
+            subreddit: ["memes", "meme"],
         })
     )[0];
 }
@@ -30,7 +31,7 @@ async function fetchMeme(): Promise<Meme> {
 const meme: Command = {
     name: "meme",
     category: Category.Entertainment,
-    description: "Fetches the newest dankest memes",
+    description: "Fetches the newest memes, all from r/meme and r/memes",
     useage: "meme",
     run: async (message) => {
         let meme = await fetchMeme();
@@ -44,9 +45,9 @@ const meme: Command = {
                     title: meme.title,
                     color: embedColor,
                     image: { url: meme.image },
-
+                    fields: [{ name: "Post Link:", value: meme.postLink }],
                     footer: {
-                        text: `r/${meme.subreddit} | Upvotes: ${meme.upvotes}`,
+                        text: `r/${meme.subreddit} • Upvotes: ${meme.upvotes}`,
                     },
                 },
             ],
