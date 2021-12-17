@@ -1,7 +1,7 @@
-import { parseChannelId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 import { fetchGuild } from "../database";
+import { parseChannelId } from "../Utilities/parsers";
 
 const SetWelcome: Command = {
     name: "setwelcome",

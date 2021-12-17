@@ -1,7 +1,6 @@
-import { User } from "discord.js";
-import { parseRoleId, parseUserId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { parseRoleId, parseUserId } from "../Utilities/parsers";
 
 const Role: Command = {
     name: "role",

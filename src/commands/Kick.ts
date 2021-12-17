@@ -1,6 +1,6 @@
-import { parseUserId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { parseUserId } from "../Utilities/parsers";
 
 const kick: Command = {
     name: "kick",

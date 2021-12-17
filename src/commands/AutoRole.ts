@@ -1,7 +1,7 @@
-import { parseRoleId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 import { fetchGuild } from "../database";
+import { parseRoleId } from "../Utilities/parsers";
 
 const AutoRole: Command = {
     name: "autorole",
