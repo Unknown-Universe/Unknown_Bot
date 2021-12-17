@@ -1,7 +1,7 @@
 import { commands } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { embedColor } from "../Utilities/constants";
+import { embedColor } from "../utilities/constants";
 
 const help: Command = {
     name: "help",

@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { parseRoleId, parseUserId } from "../Utilities/parsers";
+import { parseRoleId, parseUserId } from "../utilities/parsers";
 
 const Role: Command = {
     name: "role",

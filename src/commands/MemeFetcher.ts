@@ -2,7 +2,7 @@ import { TextChannel } from "discord.js";
 import RedditImageFetcher from "reddit-image-fetcher";
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { embedColor } from "../Utilities/constants";
+import { embedColor } from "../utilities/constants";
 
 interface Meme {
     title: string;

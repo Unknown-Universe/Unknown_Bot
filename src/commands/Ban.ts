@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { parseUserId } from "../Utilities/parsers";
+import { parseUserId } from "../utilities/parsers";
 
 const ban: Command = {
     name: "ban",
