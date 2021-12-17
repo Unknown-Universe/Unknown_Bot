@@ -1,5 +1,5 @@
+import { commands, embedColor } from "..";
 import { Category } from "../catagories";
-import { commands } from "..";
 import { Command } from "../command";
 
 const help: Command = {
@@ -7,158 +7,57 @@ const help: Command = {
     description: "Shows a list of commands.",
     category: Category.Utilities,
     useage: `help [Catagory]`,
-    run: async (message, ...args) => {
-        if (!args.length) {
-            message.channel.send({
+    run: async (message, category) => {
+        const categories: Record<string, Command[]> = {};
+        for (const command of commands) {
+            if (!(command.category in categories))
+                categories[command.category] = [];
+            categories[command.category].push(command);
+        }
+        if (!category) {
+            await message.reply({
                 embeds: [
                     {
                         title: "Catagories",
-                        color: 0xa6400d,
-                        fields: [
-                            {
-                                name: "Moderation",
-                                value: "Moderation Commands",
-                            },
-                            {
-                                name: "Utilities",
-                                value: "Utilities Commands",
-                            },
-                            {
-                                name: "Configuration",
-                                value: "Configuration Commands",
-                            },
-                            {
-                                name: "Information",
-                                value: "Information Commands",
-                            },
-                            {
-                                name: "Entertainment",
-                                value: "Entertainment Commands",
-                            },
-                        ],
-                    },
-                ],
-            });
-        } else if (args[0] === "moderation" || args[0] === "Moderation") {
-            await message.channel.send({
-                embeds: [
-                    {
-                        title: "Moderation",
-                        color: 0xa6400d,
-                        fields: commands
+                        color: embedColor,
+                        fields: Object.keys(categories)
                             .filter(
-                                (command) =>
-                                    command.category === Category.Moderation
+                                (category) =>
+                                    ![
+                                        Category.Restricted,
+                                        Category.ServerSetup,
+                                    ].includes(category as Category)
                             )
-                            .map((command) => {
+                            .sort((a, b) => a.localeCompare(b))
+                            .map((category) => {
                                 return {
-                                    name:
-                                        command.name.slice(0, 1).toUpperCase() +
-                                        command.name.slice(1),
-                                    value:
-                                        command.useage +
-                                        `\n` +
-                                        command.description,
+                                    name: category,
+                                    value: `Shows the commands in the ${category.toLowerCase()} category.`,
                                 };
                             }),
                     },
                 ],
             });
-        } else if (args[0] === "utilities" || args[0] === "Utilities") {
-            await message.channel.send({
+        } else {
+            const key = Object.keys(categories).find(
+                (category) => category.toLowerCase() === category.toLowerCase()
+            );
+            if (!key) {
+                await message.reply("That is not a valid category.");
+                return;
+            }
+            const items = categories[key];
+            await message.reply({
                 embeds: [
                     {
-                        title: "Utilities",
-                        color: 0xa6400d,
-                        fields: commands
-                            .filter(
-                                (command) =>
-                                    command.category === Category.Utilities
-                            )
+                        title: key,
+                        color: embedColor,
+                        fields: items
+                            .sort((a, b) => a.name.localeCompare(b.name))
                             .map((command) => {
                                 return {
-                                    name:
-                                        command.name.slice(0, 1).toUpperCase() +
-                                        command.name.slice(1),
-                                    value:
-                                        command.useage +
-                                        `\n` +
-                                        command.description,
-                                };
-                            }),
-                    },
-                ],
-            });
-        } else if (args[0] === "configuration" || args[0] === "Configuration") {
-            await message.channel.send({
-                embeds: [
-                    {
-                        title: "Configuration",
-                        color: 0xa6400d,
-                        fields: commands
-                            .filter(
-                                (command) =>
-                                    command.category === Category.Configuration
-                            )
-                            .map((command) => {
-                                return {
-                                    name:
-                                        command.name.slice(0, 1).toUpperCase() +
-                                        command.name.slice(1),
-                                    value:
-                                        command.useage +
-                                        `\n` +
-                                        command.description,
-                                };
-                            }),
-                    },
-                ],
-            });
-        } else if (args[0] === "information" || args[0] === "Information") {
-            await message.channel.send({
-                embeds: [
-                    {
-                        title: "Information",
-                        color: 0xa6400d,
-                        fields: commands
-                            .filter(
-                                (command) =>
-                                    command.category === Category.Information
-                            )
-                            .map((command) => {
-                                return {
-                                    name:
-                                        command.name.slice(0, 1).toUpperCase() +
-                                        command.name.slice(1),
-                                    value:
-                                        command.useage +
-                                        `\n` +
-                                        command.description,
-                                };
-                            }),
-                    },
-                ],
-            });
-        } else if (args[0] === "entertainment" || args[0] === "Entertainment") {
-            await message.channel.send({
-                embeds: [
-                    {
-                        title: "Entertainment",
-                        color: 0xa6400d,
-                        fields: commands
-                            .filter(
-                                (command) =>
-                                    command.category === Category.Entertainment
-                            )
-                            .map((command) => {
-                                return {
-                                    name:
-                                        command.name.slice(0, 1).toUpperCase() +
-                                        command.name.slice(1),
-                                    value:
-                                        command.useage +
-                                        `\n` +
-                                        command.description,
+                                    name: command.name,
+                                    value: command.description,
                                 };
                             }),
                     },

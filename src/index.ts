@@ -1,11 +1,13 @@
-import { Client, Guild, Message, User } from "discord.js";
-import fs, { readdirSync } from "fs";
-import path from "path";
+import { Client } from "discord.js";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import { Command } from "./command";
 import { fetchGuild, GuildModel } from "./database";
 
 dotenv.config();
+
+export const embedColor = 0xa6400d;
 
 export function parseUserId(text: string): string | null {
     return text.match(/^<@!?(\d{17,19})>$/)?.[1] ?? null;
