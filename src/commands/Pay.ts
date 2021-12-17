@@ -1,7 +1,7 @@
-import { parseUserId } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 import { fetchUser } from "../econDatabase";
+import { parseUserId } from "../utilities/parsers";
 
 const pay: Command = {
     name: "pay",
