@@ -1,0 +1,57 @@
+import { TextChannel } from "discord.js";
+import RedditImageFetcher from "reddit-image-fetcher";
+import { embedColor } from "..";
+import { Category } from "../catagories";
+import { Command } from "../command";
+
+interface Meme {
+    title: string;
+    id: string;
+    type: string;
+    postLink: string;
+    image: string;
+    thumbnail: string;
+    subreddit: string;
+    NSFW: boolean;
+    spoiler: boolean;
+    createdUtc: number;
+    upvotes: number;
+    upvoteRatio: number;
+}
+
+async function fetchMeme(): Promise<Meme> {
+    return (
+        await RedditImageFetcher.fetch({
+            type: "meme",
+        })
+    )[0];
+}
+
+const meme: Command = {
+    name: "meme",
+    category: Category.Entertainment,
+    description: "Fetches the newest dankest memes",
+    useage: "meme",
+    run: async (message) => {
+        let meme = await fetchMeme();
+        while (meme.NSFW && !(message.channel as TextChannel).nsfw) {
+            meme = await fetchMeme();
+        }
+
+        await message.reply({
+            embeds: [
+                {
+                    title: meme.title,
+                    color: embedColor,
+                    image: { url: meme.image },
+
+                    footer: {
+                        text: `r/${meme.subreddit} | Upvotes: ${meme.upvotes}`,
+                    },
+                },
+            ],
+        });
+    },
+};
+
+export default meme;
