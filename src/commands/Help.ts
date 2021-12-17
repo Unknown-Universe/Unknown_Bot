@@ -49,7 +49,6 @@ const help: Command = {
                 return;
             }
             const items = categories[key];
-            console.log(category);
 
             await message.reply({
                 embeds: [
