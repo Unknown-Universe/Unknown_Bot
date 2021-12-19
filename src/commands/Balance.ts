@@ -3,7 +3,7 @@ import { Command } from "../command";
 import { fetchUser } from "../econDatabase";
 
 const bal: Command = {
-    name: "Bal",
+    name: "bal",
     category: Category.Entertainment,
     description: "Get your current ballance",
     useage: "bal",
