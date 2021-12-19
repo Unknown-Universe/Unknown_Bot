@@ -4,6 +4,7 @@ export const enum Category {
     Configuration = "Configuration",
     Information = "Information",
     Entertainment = "Entertainment",
+    Random = "Random",
     Restricted = "Restricted",
     ServerSetup = "ServerSetup",
 }
