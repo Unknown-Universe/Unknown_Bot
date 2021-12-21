@@ -4,10 +4,14 @@ import fs from "fs";
 import path from "path";
 import { Command } from "./command";
 import { fetchGuild, GuildModel } from "./database";
+import { ReactionModel } from "./reactionDatabase";
 
 dotenv.config();
 
-export const client = new Client({ intents: 32767 });
+export const client = new Client({
+    intents: 32767,
+    partials: ["CHANNEL", "MESSAGE", "REACTION"],
+});
 
 const commandDir = path.join(__dirname, "commands");
 export const commands: Array<Command> = [];
@@ -67,6 +71,60 @@ client.on("messageCreate", async (message) => {
 
 client.on("guildDelete", async (guild) => {
     await GuildModel.deleteMany({ id: guild.id });
+});
+
+client.on("messageReactionAdd", async (messageReaction, user) => {
+    if (user.bot) return;
+
+    const guild = messageReaction.message.guild;
+    if (!guild) return;
+
+    const member = await guild.members.fetch(user.id);
+
+    const emoji = messageReaction.emoji;
+    const reaction = await ReactionModel.findOne({
+        messageID: messageReaction.message.id,
+        emojiID: emoji.identifier,
+    });
+
+    if (reaction) {
+        await member.roles.add(reaction.roleID).catch(() => {});
+    }
+});
+
+client.on("messageReactionRemove", async (messageReaction, user) => {
+    if (user.bot) return;
+
+    const guild = messageReaction.message.guild;
+    if (!guild) return;
+
+    if (messageReaction.count === 0) {
+        await ReactionModel.deleteMany({
+            messageID: messageReaction.message.id,
+            emojiID: messageReaction.emoji.identifier,
+        });
+        return;
+    }
+
+    const member = await guild.members.fetch(user.id);
+
+    const emoji = messageReaction.emoji;
+    const reaction = await ReactionModel.findOne({
+        messageID: messageReaction.message.id,
+        emojiID: emoji.identifier,
+    });
+
+    if (reaction) {
+        await member.roles.remove(reaction.roleID).catch(() => {});
+    }
+});
+
+client.on("messageDelete", async (message) => {
+    await ReactionModel.deleteMany({ messageID: message.id });
+});
+
+client.on("roleDelete", async (role) => {
+    await ReactionModel.deleteMany({ roleID: role.id });
 });
 
 client.on("guildMemberAdd", async (member) => {
