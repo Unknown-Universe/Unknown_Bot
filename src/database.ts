@@ -10,6 +10,8 @@ interface Guild {
     welcomeMessage: string;
     autoRole: string;
     setAutoRole: boolean;
+    filter: string[];
+    doFilter: boolean;
 }
 
 export const GuildModel = model<Guild>(
@@ -25,6 +27,8 @@ export const GuildModel = model<Guild>(
         },
         autoRole: { type: String },
         setAutoRole: { type: Boolean, default: false },
+        filter: { type: [String] },
+        doFilter: { type: Boolean, default: false },
     })
 );
 
