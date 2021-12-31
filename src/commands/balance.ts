@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchUser } from "../econDatabase";
+import { fetchUser } from '../utilities/database';
 
 const bal: Command = {
     name: "bal",
@@ -10,9 +10,9 @@ const bal: Command = {
     run: async (message, ...args) => {
         const user = message.member!;
 
-        const data = fetchUser(user.id);
+        const data = await fetchUser(user.id);
         await message.reply(
-            `Your current Ballance is: ${(await data).balance}`
+            `Your current Ballance is: ${data.balance}`
         );
     },
 };

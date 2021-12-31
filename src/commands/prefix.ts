@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchGuild } from "../database";
+import { db } from '../utilities/database';
 
 const prefix: Command = {
     name: "prefix",
@@ -25,9 +25,7 @@ const prefix: Command = {
             return;
         }
 
-        const data = await fetchGuild(guild.id);
-        data.prefix = prefix;
-        await data.save();
+        await db.execute('UPDATE `guilds` SET `prefix` = ? WHERE `id` = ?', [prefix, message.guildId]);
         await message.reply(`Prefix changed to: ${prefix}`);
     },
 };

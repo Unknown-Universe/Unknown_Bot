@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchGuild } from "../database";
+import { db } from '../utilities/database';
 import { parseRoleId } from "../utilities/parsers";
 
 const AutoRole: Command = {
@@ -19,16 +19,12 @@ const AutoRole: Command = {
             return;
         }
 
-        const guildInfo = await fetchGuild(message.guild!.id);
-
         if (args[0] === "true" || args[0] === "True") {
-            guildInfo.setAutoRole = true;
-            await guildInfo.save();
+            await db.execute('UPDATE `guilds` SET `set_auto_role` = 1 WHERE `id` = ?', [message.guildId]);
             await message.reply("Turned on autorole");
             return;
         } else if (args[0] === "false" || args[0] === "False") {
-            guildInfo.setAutoRole = false;
-            await guildInfo.save();
+            await db.execute('UPDATE `guilds` SET `set_auto_role` = 0 WHERE `id` = ?', [message.guildId]);
             await message.reply("Turned off autorole");
             return;
         }
@@ -44,14 +40,8 @@ const AutoRole: Command = {
             return;
         }
 
-        await message.reply(`Set default role to ${role}`);
-        guildInfo.autoRole = role;
-        await guildInfo.save();
-        if (!args[1]) {
-            return;
-        }
-
-        return;
+        await message.reply(`Set default role to <@&${role}>`);
+        await db.execute('UPDATE `guilds` SET `auto_role` = ? WHERE `id` = ?', [role, message.guildId]);
     },
 };
 

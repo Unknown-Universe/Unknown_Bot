@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchGuild } from "../database";
+import { db, FilteredWordData } from "../utilities/database";
 
 const example: Command = {
     name: "filter",
@@ -8,7 +8,7 @@ const example: Command = {
     description: "Used to configure this servers filter",
     useage: "filter help",
     run: async (message, ...args) => {
-        if (message.member!.permissions.has("MANAGE_MESSAGES")) {
+        if (!message.member!.permissions.has("MANAGE_MESSAGES")) {
             await message.reply("You dont have permission to do that");
             return;
         }
@@ -46,56 +46,73 @@ const example: Command = {
             return;
         }
 
-        args.shift();
-
-        if (!args.length) {
-            await message.reply(
-                `Not enough arguments, run "filter help" to get a list of valid commands`
-            );
-            return;
-        }
-
-        const serverInfo = await fetchGuild(message.guild!.id);
-        const modifier = args[0].toLowerCase();
+        const modifier = args.shift()!.toLowerCase();
 
         switch (modifier) {
             case "add":
-                serverInfo.filter.push(...args);
-                await serverInfo.save();
+                if (!args.length) {
+                    await message.reply(
+                        `Not enough arguments, run "filter help" to get a list of valid commands`
+                    );
+                    return;
+                }
+                for (const word of args) {
+                    if (word.length > 64) {
+                        await message.reply("Word over 64 characters");
+                        return;
+                    }
+                    await db.execute(
+                        "INSERT INTO `filtered_words` (`guild_id`, `word`) VALUES (?, ?)",
+                        [message.guildId, word]
+                    );
+                }
                 await message.reply("Added new words to the filter");
                 break;
             case "remove":
-                for (const arg of args) {
-                    serverInfo.filter.splice(serverInfo.filter.indexOf(arg), 1);
+                if (!args.length) {
+                    await message.reply(
+                        `Not enough arguments, run "filter help" to get a list of valid commands`
+                    );
+                    return;
                 }
-                await serverInfo.save();
+                for (const word of args) {
+                    await db.execute(
+                        "DELETE FROM `filtered_words` WHERE `guild_id` = ? AND `word` = ?",
+                        [message.guildId, word]
+                    );
+                }
                 await message.reply("Removed words from the filter");
                 break;
             case "on":
-                serverInfo.doFilter = true;
-                serverInfo.save();
+                await db.execute(
+                    "UPDATE `guilds` SET `do_filter` = 1 WHERE `id` = ?",
+                    [message.guildId]
+                );
                 await message.reply(
                     "I will now filter words on the filter list"
                 );
                 break;
             case "off":
-                serverInfo.doFilter = false;
-                serverInfo.save();
+                await db.execute(
+                    "UPDATE `guilds` SET `do_filter` = 0 WHERE `id` = ?",
+                    [message.guildId]
+                );
                 await message.reply(
                     "I will no longer filter words on the filter list"
                 );
                 break;
             case "list":
+                const [words]: [FilteredWordData[]] = (await db.execute(
+                    "SELECT * FROM `filtered_words` WHERE `guild_id` = ?",
+                    [message.guildId]
+                )) as any;
                 await message.reply({
                     embeds: [
                         {
                             title: "Filter List",
-                            fields: serverInfo.filter.map((word) => {
-                                return {
-                                    name: word,
-                                    value: "",
-                                };
-                            }),
+                            description: words
+                                .map((word) => word.word)
+                                .join("\n"),
                         },
                     ],
                 });

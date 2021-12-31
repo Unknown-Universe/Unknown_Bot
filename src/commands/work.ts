@@ -1,7 +1,7 @@
 import ms from "ms";
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchUser } from "../econDatabase";
+import { db, fetchUser } from '../utilities/database';
 
 const timeouts: Record<string, number> = {};
 
@@ -29,14 +29,13 @@ const work: Command = {
         timeouts[message.member!.user.id] = Date.now();
 
         const user = message.member!;
-
-        const data = fetchUser(user.id);
-
+        const data = await fetchUser(user.id);
         const random = Math.floor(Math.random() * 50);
 
-        (await data).balance += random;
-        message.reply(`You made ${random} working today`);
-        (await data).save();
+        data.balance += random;
+        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [data.balance, data.id]);
+            
+        await message.reply(`You made ${random} working today`);
     },
 };
 

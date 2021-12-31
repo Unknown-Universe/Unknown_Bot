@@ -1,0 +1,55 @@
+import dotenv from 'dotenv';
+import { createPool } from 'mysql2';
+
+dotenv.config();
+
+export const db = createPool({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASS,
+    supportBigNumbers: true,
+    bigNumberStrings: true,
+    charset: 'utf8mb4_unicode_ci'
+}).promise();
+
+export interface GuildData {
+    id: string;
+    prefix: string;
+    send_welcome: boolean;
+    welcome_channel: string | null;
+    welcome_message: string;
+    auto_role: string | null;
+    set_auto_role: boolean;
+    do_filter: boolean;
+}
+
+export interface UserData {
+    id: string;
+    balance: number;
+}
+
+export interface ReactionRoleData {
+    message_id: string;
+    role_id: string;
+    emoji_id: string;
+}
+
+export interface FilteredWordData {
+    guild_id: string;
+    word: string;
+}
+
+export async function fetchGuild(id: string): Promise<GuildData> {
+    const [results]: [GuildData[]] = await db.execute('SELECT * FROM `guilds` WHERE `id` = ?', [id]) as any;
+    if (results.length) return results[0];
+    await db.execute('INSERT INTO `guilds` (`id`) VALUES (?)', [id]);
+    return await fetchGuild(id);
+}
+
+export async function fetchUser(id: string): Promise<UserData> {
+    const [results]: [UserData[]] = await db.execute('SELECT * FROM `users` WHERE `id` = ?', [id]) as any;
+    if (results.length) return results[0];
+    await db.execute('INSERT INTO `users` (`id`) VALUES (?)', [id]);
+    return await fetchUser(id);
+}

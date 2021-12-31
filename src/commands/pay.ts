@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { fetchUser } from "../econDatabase";
+import { db, fetchUser } from '../utilities/database';
 import { parseUserId } from "../utilities/parsers";
 
 const pay: Command = {
@@ -9,35 +9,35 @@ const pay: Command = {
     description: "Send funds to another user",
     useage: "pay {user} {amount}",
     run: async (message, ...args) => {
-        const reciveUserId =
+        const receiveUserId =
             parseUserId(args[0]) ?? args[0].match(/^(\d{17,19})$/)?.[1];
 
         const sendUser = message.member!;
 
         const sendUserInfo = await fetchUser(sendUser.id);
 
-        if (!reciveUserId) {
-            message.reply("Please give a actual user to send to");
+        if (!receiveUserId) {
+            await message.reply("Please give a actual user to send to");
             return;
         }
 
-        const reciveUserInfo = await fetchUser(reciveUserId);
+        const receiveUserInfo = await fetchUser(receiveUserId);
         const amount = +args[1];
 
         if (!amount || amount < 1) {
-            message.reply("Please give a vaild amount");
+            await message.reply("Please give a vaild amount");
             return;
         }
 
         if (sendUserInfo.balance < amount) {
-            message.reply("You cant send more then you have");
+            await message.reply("You cant send more then you have");
             return;
         }
 
-        reciveUserInfo.balance += amount;
+        receiveUserInfo.balance += amount;
         sendUserInfo.balance -= amount;
-        reciveUserInfo.save();
-        sendUserInfo.save();
+        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [receiveUserInfo.balance, receiveUserInfo.id]);
+        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [sendUserInfo.balance, sendUserInfo.id]);
     },
 };
 
