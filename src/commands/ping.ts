@@ -7,7 +7,7 @@ const ping: Command = {
     category: Category.Utilities,
     description: "Gets the current latincy of the bot",
     useage: "ping",
-    run: async (message, ...args) => {
+    run: async (message) => {
         const yourping = Date.now() - message.createdTimestamp;
         const botping = Math.round(client.ws.ping);
 

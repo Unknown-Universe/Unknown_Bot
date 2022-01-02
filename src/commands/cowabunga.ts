@@ -6,7 +6,7 @@ const cowabunga: Command = {
     category: Category.Random,
     description: ";)",
     useage: "cowabunga",
-    run: async (message, ...args) => {
+    run: async (message) => {
         await message.reply("Deez nuts");
     },
 };

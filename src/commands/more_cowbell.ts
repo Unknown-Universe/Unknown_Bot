@@ -6,7 +6,7 @@ const morecowbell: Command = {
     category: Category.Random,
     description: ";)",
     useage: "Morecowbell",
-    run: async (message, ...args) => {
+    run: async (message) => {
         await message.reply(
             "https://tenor.com/view/cow-bell-fever-guees-what-gif-8044196"
         );
