@@ -9,7 +9,7 @@ const kick: Command = {
         "kicks a user from this server, you must have the kick_members permission to run this command",
     useage: `kick {User} [reason]`,
     run: async (message, ...args) => {
-        if (!message.member?.permissions.has("KICK_MEMBERS")) {
+        if (!message.member!.permissions.has("KICK_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
@@ -45,7 +45,7 @@ const kick: Command = {
             return;
         }
         if (
-            message.member.roles.highest.comparePositionTo(
+            message.member!.roles.highest.comparePositionTo(
                 user.roles.highest
             ) <= 0
         ) {

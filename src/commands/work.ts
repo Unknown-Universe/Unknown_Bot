@@ -1,7 +1,7 @@
 import ms from "ms";
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { db, fetchUser } from '../utilities/database';
+import { db, fetchUser } from "../utilities/database";
 
 const timeouts: Record<string, number> = {};
 
@@ -10,7 +10,7 @@ const work: Command = {
     category: Category.Entertainment,
     description: "Work for your funds",
     useage: "work",
-    run: async (message, ...args) => {
+    run: async (message) => {
         if (message.member!.user.id in timeouts) {
             if (
                 Date.now() - timeouts[message.member!.user.id] <
@@ -33,8 +33,11 @@ const work: Command = {
         const random = Math.floor(Math.random() * 50);
 
         data.balance += random;
-        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [data.balance, data.id]);
-            
+        await db.execute("UPDATE `users` SET `balance` = ? WHERE `id` = ?", [
+            data.balance,
+            data.id,
+        ]);
+
         await message.reply(`You made ${random} working today`);
     },
 };

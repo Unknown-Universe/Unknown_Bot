@@ -9,7 +9,7 @@ const unban: Command = {
         "Unbans a user with {User ID} from this server, requres ban_members permission",
     useage: `unban {User ID}`,
     run: async (message, ...args) => {
-        if (!message.member?.permissions.has("BAN_MEMBERS")) {
+        if (!message.member!.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }

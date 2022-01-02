@@ -102,7 +102,7 @@ const example: Command = {
                 );
                 break;
             case "list":
-                const [words]: [FilteredWordData[]] = (await db.execute(
+                const [records]: [FilteredWordData[]] = (await db.execute(
                     "SELECT * FROM `filtered_words` WHERE `guild_id` = ?",
                     [message.guildId]
                 )) as any;
@@ -110,8 +110,8 @@ const example: Command = {
                     embeds: [
                         {
                             title: "Filter List",
-                            description: words
-                                .map((word) => word.word)
+                            description: records
+                                .map((record) => record.word)
                                 .join("\n"),
                         },
                     ],

@@ -7,7 +7,7 @@ const clear: Command = {
     description: "Clears {number} of messages from a channel",
     useage: `purge {number}`,
     run: async (message, ...args) => {
-        if (!message.member?.permissions.has("MANAGE_MESSAGES")) {
+        if (!message.member!.permissions.has("MANAGE_MESSAGES")) {
             await message.reply("You dont have permission to use this");
             return;
         }
@@ -15,14 +15,16 @@ const clear: Command = {
             await message.reply("No Arguments Given");
             return;
         }
-        if (!+args[0] || +args[0] < 2 || +args[0] > 100) {
-            await message.reply("Please give a vaild number");
+        const count = +args[0];
+        if (!count || count < 2 || count > 100) {
+            console.log(args);
+            await message.reply("Please give a valid number");
             return;
         }
         if (message.channel.type !== "DM") {
-            await message.channel.bulkDelete(+args[0], true);
+            await message.channel.bulkDelete(count, true);
             const reply = await message.channel.send(
-                `${args[0]} messages deleted`
+                `${count} messages deleted`
             );
             setTimeout(() => reply.delete().catch(() => {}), 5000);
         }
