@@ -1,5 +1,5 @@
 import { client } from "..";
-import { fetchGuild } from "../utilities/database";
+import { db, fetchGuild } from "../utilities/database";
 
 client.on("guildMemberAdd", async (user) => {
     const guild = user.guild;
@@ -58,5 +58,34 @@ client.on("guildMemberRemove", async (user) => {
             guildInfo.bot_count_channel_id.toString()
         );
         await channel!.setName(`Bot Count: ${botCount}`);
+    }
+});
+
+client.on("channelDelete", async (channel) => {
+    if (channel.type === "DM") return;
+
+    const guild = channel.guild;
+    const guildInfo = await fetchGuild(guild.id);
+    if (guildInfo.show_bot_count) {
+        if (channel.id === guildInfo.bot_count_channel_id) {
+            await db.execute(
+                "UPDATE `guilds` SET `show_bot_count` = 0, `bot_count_channel_id` = NULL WHERE `id` = ?",
+                [guild.id]
+            );
+        }
+    } else if (guildInfo.show_total_count) {
+        if (channel.id === guildInfo.total_count_channel_id) {
+            await db.execute(
+                "UPDATE `guilds` SET `show_total_count` = 0, `total_count_channel_id` = NULL WHERE `id` = ?",
+                [guild.id]
+            );
+        }
+    } else if (guildInfo.show_user_count) {
+        if (channel.id === guildInfo.user_count_channel_id) {
+            await db.execute(
+                "UPDATE `guilds` SET `show_user_count` = 0, `user_count_channel_id` = NULL WHERE `id` = ?",
+                [guild.id]
+            );
+        }
     }
 });

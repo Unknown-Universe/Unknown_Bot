@@ -25,9 +25,9 @@ export interface GuildData {
     show_total_count: boolean;
     show_bot_count: boolean;
     show_user_count: boolean;
-    user_count_channel_id: number;
-    bot_count_channel_id: number;
-    total_count_channel_id: number;
+    user_count_channel_id: string;
+    bot_count_channel_id: string;
+    total_count_channel_id: string;
     user_count: number;
     bot_count: number;
     total_count: number;

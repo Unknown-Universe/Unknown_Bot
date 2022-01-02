@@ -2,6 +2,7 @@ import { Client } from "discord.js";
 import fs from "fs";
 import path from "path";
 import { Command } from "./command";
+import { fetchGuild } from "./utilities/database";
 
 export const client = new Client({
     intents: 32767,
@@ -24,6 +25,7 @@ for (const file of fs.readdirSync(eventDir)) {
 
 client.once("ready", async () => {
     console.log("Bot Online");
+    console.log(await fetchGuild("745996572453634130"));
     client.user!.setActivity({ type: "WATCHING", name: "Over Your Servers" });
 });
 
