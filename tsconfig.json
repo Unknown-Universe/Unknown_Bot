@@ -10,7 +10,8 @@
         "module": "commonjs",
         "target": "esnext",
         "moduleResolution": "node",
-        "outDir": "dist"
+        "outDir": "dist",
+        "noFallthroughCasesInSwitch": true
     },
     "include": ["src/**/*"]
 }

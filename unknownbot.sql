@@ -7,6 +7,15 @@ CREATE TABLE `guilds` (
     `auto_role` BIGINT,
     `set_auto_role` BOOLEAN NOT NULL DEFAULT 0,
     `do_filter` BOOLEAN NOT NULL DEFAULT 0,
+    `show_user_count` BOOLEAN NOT NULL DEFAULT 0,
+    `show_bot_count`  BOOLEAN NOT NULL DEFAULT 0,
+    `show_total_count`  BOOLEAN NOT NULL DEFAULT 0,
+    `user_count_channel_id` BIGINT,
+    `bot_count_channel_id` BIGINT,
+    `total_count_channel_id` BIGINT,
+    `user_count` BIGINT NOT NULL DEFAULT 0,
+    `bot_count` BIGINT NOT NULL DEFAULT 0,
+    `total_count` BIGINT NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 );
 
