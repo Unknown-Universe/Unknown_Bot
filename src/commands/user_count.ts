@@ -6,15 +6,47 @@ const usercount: Command = {
     name: "usercount",
     category: Category.Configuration,
     description:
-        "Makes or deletes a channel that keeps track of how many users are in the server",
+        "Makes or deletes a channel that keeps track of how many users are in the server, run usercount help for more information",
     useage: "usercount {showbot, hidebot, showuser, hideuser, showtotal, hidetotal}",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to do that");
             return;
         }
-        if (!args.length) {
-            await message.reply("placeholder");
+        if (!args.length || args[0].toLowerCase() === "help") {
+            await message.reply({
+                embeds: [
+                    {
+                        title: "usercount",
+                        fields: [
+                            {
+                                name: "showuser",
+                                value: "Turns on the user count",
+                            },
+                            {
+                                name: "showbot",
+                                value: "Turns on the bot count",
+                            },
+                            {
+                                name: "showtotal",
+                                value: "Turns on the total count",
+                            },
+                            {
+                                name: "hideuser",
+                                value: "Turns off the user count",
+                            },
+                            {
+                                name: "hidebot",
+                                value: "Turns off the bot count",
+                            },
+                            {
+                                name: "hidetotal",
+                                value: "Turns off the total count",
+                            },
+                        ],
+                    },
+                ],
+            });
             return;
         }
 
