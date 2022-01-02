@@ -16,7 +16,6 @@ const clear: Command = {
             return;
         }
         if (!+args[0] || +args[0] < 2 || +args[0] > 100) {
-            console.log(args);
             await message.reply("Please give a vaild number");
             return;
         }

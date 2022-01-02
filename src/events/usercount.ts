@@ -41,7 +41,6 @@ client.on("guildMemberRemove", async (user) => {
     const botCount = (await guild.members.fetch()).filter(
         (member) => member.user.bot
     ).size;
-    console.log(userCount);
     if (guildInfo.show_user_count) {
         const channel = await guild.channels.resolve(
             guildInfo.user_count_channel_id.toString()

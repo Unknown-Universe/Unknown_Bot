@@ -24,7 +24,6 @@ const Role: Command = {
             await message.reply("Please give a valid user");
             return;
         }
-        console.log(role);
         if (!(await message.guild!.roles.fetch()).has(role)) {
             await message.reply("Please give a valid role");
             return;

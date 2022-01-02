@@ -16,7 +16,6 @@ const purge: Command = {
             return;
         }
         if (!+args[0] || +args[0] < 1 || +args[0] > 99) {
-            console.log(args);
             await message.reply("Please give a vaild number");
             return;
         }
