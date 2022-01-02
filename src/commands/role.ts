@@ -8,7 +8,7 @@ const Role: Command = {
     description: "Used to give {User} role {Role}",
     useage: "role {User} {Role}",
     run: async (message, ...args) => {
-        if (!message.member?.permissions.has("MANAGE_ROLES")) {
+        if (!message.member!.permissions.has("MANAGE_ROLES")) {
             await message.reply("You dont have permission to do this");
             return;
         }

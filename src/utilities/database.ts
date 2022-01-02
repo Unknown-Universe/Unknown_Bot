@@ -1,16 +1,16 @@
-import dotenv from 'dotenv';
-import { createPool } from 'mysql2';
-
+import dotenv from "dotenv";
+import { createPool } from "mysql2";
 dotenv.config();
 
 export const db = createPool({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    database: process.env.DATABASE_NAME,
+    host: process.env.DATABASE_HOST ?? "localhost",
+    user: process.env.DATABASE_USER ?? "root",
+    database: process.env.DATABASE_NAME ?? "unknownbot",
     password: process.env.DATABASE_PASS,
+    port: process.env.DATABASE_PORT as any,
     supportBigNumbers: true,
     bigNumberStrings: true,
-    charset: 'utf8mb4_unicode_ci'
+    charset: "utf8mb4_unicode_ci",
 }).promise();
 
 export interface GuildData {
@@ -22,6 +22,15 @@ export interface GuildData {
     auto_role: string | null;
     set_auto_role: boolean;
     do_filter: boolean;
+    show_total_count: boolean;
+    show_bot_count: boolean;
+    show_user_count: boolean;
+    user_count_channel_id: number;
+    bot_count_channel_id: number;
+    total_count_channel_id: number;
+    user_count: number;
+    bot_count: number;
+    total_count: number;
 }
 
 export interface UserData {
@@ -41,15 +50,21 @@ export interface FilteredWordData {
 }
 
 export async function fetchGuild(id: string): Promise<GuildData> {
-    const [results]: [GuildData[]] = await db.execute('SELECT * FROM `guilds` WHERE `id` = ?', [id]) as any;
+    const [results]: [GuildData[]] = (await db.execute(
+        "SELECT * FROM `guilds` WHERE `id` = ?",
+        [id]
+    )) as any;
     if (results.length) return results[0];
-    await db.execute('INSERT INTO `guilds` (`id`) VALUES (?)', [id]);
+    await db.execute("INSERT INTO `guilds` (`id`) VALUES (?)", [id]);
     return await fetchGuild(id);
 }
 
 export async function fetchUser(id: string): Promise<UserData> {
-    const [results]: [UserData[]] = await db.execute('SELECT * FROM `users` WHERE `id` = ?', [id]) as any;
+    const [results]: [UserData[]] = (await db.execute(
+        "SELECT * FROM `users` WHERE `id` = ?",
+        [id]
+    )) as any;
     if (results.length) return results[0];
-    await db.execute('INSERT INTO `users` (`id`) VALUES (?)', [id]);
+    await db.execute("INSERT INTO `users` (`id`) VALUES (?)", [id]);
     return await fetchUser(id);
 }

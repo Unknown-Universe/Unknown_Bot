@@ -34,10 +34,10 @@ const meme: Command = {
     description: "Fetches the newest memes, all from r/meme and r/memes",
     useage: "meme",
     run: async (message) => {
-        let meme = await fetchMeme();
-        while (meme.NSFW && !(message.channel as TextChannel).nsfw) {
+        let meme: Meme;
+        do {
             meme = await fetchMeme();
-        }
+        } while (meme.NSFW && !(message.channel as TextChannel).nsfw);
 
         await message.reply({
             embeds: [

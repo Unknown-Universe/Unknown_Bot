@@ -9,7 +9,7 @@ const ban: Command = {
         "Bans a user from this server, you must have the ban_members permission to run this command",
     useage: `ban {User} [reason]`,
     run: async (message, ...args) => {
-        if (!message.member?.permissions.has("BAN_MEMBERS")) {
+        if (!message.member!.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
@@ -24,8 +24,8 @@ const ban: Command = {
             await message.reply("No User Given");
             return;
         }
-        const user = await message.guild!.members.fetch(userID);
-        if (!user.bannable) {
+        const member = await message.guild!.members.fetch(userID);
+        if (!member.bannable) {
             await message.reply("User is not bannable");
             return;
         }
@@ -36,15 +36,15 @@ const ban: Command = {
 
         if (
             message.guild!.me!.roles.highest.comparePositionTo(
-                user.roles.highest
+                member.roles.highest
             ) <= 0
         ) {
             await message.reply("Unable to ban user with higher roles than me");
             return;
         }
         if (
-            message.member.roles.highest.comparePositionTo(
-                user.roles.highest
+            message.member!.roles.highest.comparePositionTo(
+                member.roles.highest
             ) <= 0
         ) {
             await message.reply(
@@ -53,16 +53,16 @@ const ban: Command = {
             return;
         }
         try {
-            await user.send(
+            await member.send(
                 `You were banned from ${message.guild!.name} ${
                     reason.length ? `for ${reason}` : ""
                 }`
             );
         } catch {}
-        await user.ban({
+        await member.ban({
             reason: reason.length ? reason : undefined,
         });
-        await message.reply(`${user.user.tag} has been banned`);
+        await message.reply(`${member.user.tag} has been banned`);
     },
 };
 

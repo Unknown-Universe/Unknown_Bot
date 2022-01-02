@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { db } from '../utilities/database';
+import { db } from "../utilities/database";
 import { parseRoleId } from "../utilities/parsers";
 
 const AutoRole: Command = {
@@ -20,11 +20,17 @@ const AutoRole: Command = {
         }
 
         if (args[0] === "true" || args[0] === "True") {
-            await db.execute('UPDATE `guilds` SET `set_auto_role` = 1 WHERE `id` = ?', [message.guildId]);
+            await db.execute(
+                "UPDATE `guilds` SET `set_auto_role` = 1 WHERE `id` = ?",
+                [message.guildId]
+            );
             await message.reply("Turned on autorole");
             return;
         } else if (args[0] === "false" || args[0] === "False") {
-            await db.execute('UPDATE `guilds` SET `set_auto_role` = 0 WHERE `id` = ?', [message.guildId]);
+            await db.execute(
+                "UPDATE `guilds` SET `set_auto_role` = 0 WHERE `id` = ?",
+                [message.guildId]
+            );
             await message.reply("Turned off autorole");
             return;
         }
@@ -41,7 +47,10 @@ const AutoRole: Command = {
         }
 
         await message.reply(`Set default role to <@&${role}>`);
-        await db.execute('UPDATE `guilds` SET `auto_role` = ? WHERE `id` = ?', [role, message.guildId]);
+        await db.execute("UPDATE `guilds` SET `auto_role` = ? WHERE `id` = ?", [
+            role,
+            message.guildId,
+        ]);
     },
 };
 
