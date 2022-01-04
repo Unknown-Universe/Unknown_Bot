@@ -90,6 +90,12 @@ const kick: Command = {
                                         ? reason
                                         : "No Reason Given",
                                 },
+                                {
+                                    name: "Time:",
+                                    value: `<t:${Math.floor(
+                                        Date.now() / 1000
+                                    )}>`,
+                                },
                             ],
                         },
                     ],

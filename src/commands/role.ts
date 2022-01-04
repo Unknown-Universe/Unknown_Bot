@@ -59,6 +59,12 @@ const Role: Command = {
                                     name: "Role:",
                                     value: fetchedRole!.name,
                                 },
+                                {
+                                    name: "Time:",
+                                    value: `<t:${Math.floor(
+                                        Date.now() / 1000
+                                    )}>`,
+                                },
                             ],
                         },
                     ],

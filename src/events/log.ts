@@ -113,6 +113,10 @@ client.on("guildBanAdd", async (ban) => {
                                 name: "Reason:",
                                 value: reason ?? "No Reason Given",
                             },
+                            {
+                                name: "Time:",
+                                value: `<t:${Math.floor(Date.now() / 1000)}>`,
+                            },
                         ],
                     },
                 ],

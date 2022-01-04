@@ -7,7 +7,7 @@ const log: Command = {
     name: "log",
     category: Category.Configuration,
     description: "Configures message logging",
-    useage: "",
+    useage: "[moderation, moderation]",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to do that");
@@ -15,7 +15,7 @@ const log: Command = {
         }
 
         if (!args.length) {
-            message.reply("placeholder");
+            message.reply("Useage: [moderation, moderation]");
             return;
         }
 
@@ -82,7 +82,7 @@ const log: Command = {
                         );
 
                     message.reply("Turned off all logging");
-                } else if (args[0].toLowerCase() === "message") {
+                } else if (args[0].toLowerCase() === "moderation") {
                     if (!guildInfo.do_message_logging) {
                         await message.reply("Filter is already off");
                         return;
