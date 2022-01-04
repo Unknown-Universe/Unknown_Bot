@@ -1,5 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
 const kick: Command = {
@@ -63,6 +64,38 @@ const kick: Command = {
         } catch {}
         await user.kick(reason.length ? reason : undefined);
         await message.reply(`${user.user.tag} has been kicked`);
+        const guild = message.guild!;
+        const guildInfo = await fetchGuild(guild.id);
+        if (guildInfo.do_moderation_logging) {
+            const channel = guild.channels.cache.get(
+                guildInfo.message_logging_channel
+            );
+            if (channel!.isText()) {
+                await channel.send({
+                    embeds: [
+                        {
+                            title: `User Kicked`,
+                            fields: [
+                                {
+                                    name: "User:",
+                                    value: user.user.username,
+                                },
+                                {
+                                    name: "User Id:",
+                                    value: user.id,
+                                },
+                                {
+                                    name: "Reason:",
+                                    value: reason.length
+                                        ? reason
+                                        : "No Reason Given",
+                                },
+                            ],
+                        },
+                    ],
+                });
+            }
+        }
     },
 };
 

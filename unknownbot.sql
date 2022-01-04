@@ -16,6 +16,9 @@ CREATE TABLE `guilds` (
     `user_count` BIGINT NOT NULL DEFAULT 0,
     `bot_count` BIGINT NOT NULL DEFAULT 0,
     `total_count` BIGINT NOT NULL DEFAULT 0,
+    `do_message_logging` BOOLEAN NOT NULL DEFAULT 0,
+    `message_logging_channel` BIGINT,
+    `do_moderation_logging` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 );
 

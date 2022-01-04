@@ -31,6 +31,9 @@ export interface GuildData {
     user_count: number;
     bot_count: number;
     total_count: number;
+    do_message_logging: boolean;
+    message_logging_channel: string;
+    do_moderation_logging: boolean;
 }
 
 export interface UserData {
