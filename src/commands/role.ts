@@ -1,5 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { fetchGuild } from "../utilities/database";
 import { parseRoleId, parseUserId } from "../utilities/parsers";
 
 const Role: Command = {
@@ -34,6 +35,37 @@ const Role: Command = {
 
         await fetchedUser.roles.add(fetchedRole!);
         message.reply(`Gave ${fetchedUser}: ${fetchedRole}`);
+        const guild = message.guild!;
+
+        const guildInfo = await fetchGuild(guild.id);
+        if (guildInfo.do_moderation_logging) {
+            const channel = guild.channels.cache.get(
+                guildInfo.message_logging_channel
+            );
+            if (channel!.isText()) {
+                await channel.send({
+                    embeds: [
+                        {
+                            title: `User Given Role`,
+                            fields: [
+                                {
+                                    name: "User:",
+                                    value: fetchedUser.user.username,
+                                },
+                                {
+                                    name: "User Id:",
+                                    value: fetchedUser.id,
+                                },
+                                {
+                                    name: "Role:",
+                                    value: fetchedRole!.name,
+                                },
+                            ],
+                        },
+                    ],
+                });
+            }
+        }
     },
 };
 

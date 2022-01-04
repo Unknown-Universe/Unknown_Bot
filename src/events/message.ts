@@ -12,7 +12,6 @@ client.on("messageCreate", async (message) => {
         if (!message.guild || message.author.bot) {
             return;
         }
-
         const guildData = await fetchGuild(message.guildId!);
         const prefix = guildData.prefix;
 
