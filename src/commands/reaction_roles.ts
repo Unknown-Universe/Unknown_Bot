@@ -1,7 +1,8 @@
 import { Emoji, Role } from "discord.js";
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { db } from '../utilities/database';
+import { embedColor } from "../utilities/constants";
+import { db } from "../utilities/database";
 import { parseRoleId } from "../utilities/parsers";
 
 const reactionRoles: Command = {
@@ -60,6 +61,7 @@ const reactionRoles: Command = {
         const reactionMessage = await message.channel.send({
             embeds: [
                 {
+                    color: embedColor,
                     fields: roles.map((role) => {
                         const emoji = reactions[i];
                         i++;
@@ -73,7 +75,10 @@ const reactionRoles: Command = {
         });
         for (const [index, emoji] of reactions.entries()) {
             await reactionMessage.react(emoji.id ?? emoji.name!);
-            await db.execute('INSERT INTO `reaction_roles` (`emoji_id`, `role_id`, `message_id`) VALUES (?, ?, ?)', [emoji.id ?? emoji.name, roles[index].id, reactionMessage.id]);
+            await db.execute(
+                "INSERT INTO `reaction_roles` (`emoji_id`, `role_id`, `message_id`) VALUES (?, ?, ?)",
+                [emoji.id ?? emoji.name, roles[index].id, reactionMessage.id]
+            );
         }
         await message.delete();
     },

@@ -1,5 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { embedColor } from "../utilities/constants";
 import { db, fetchGuild } from "../utilities/database";
 
 const usercount: Command = {
@@ -17,6 +18,7 @@ const usercount: Command = {
             await message.reply({
                 embeds: [
                     {
+                        color: embedColor,
                         title: "usercount",
                         fields: [
                             {
