@@ -7,6 +7,7 @@ client.on("messageDelete", async (message) => {
         if (
             message.partial ||
             message.channel.type === "DM" ||
+            !message.member ||
             message.member!.user.bot
         )
             return;
