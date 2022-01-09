@@ -2,6 +2,7 @@ import { GuildMember, User } from "discord.js";
 import { client } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { embedColor } from "../utilities/constants";
 import { parseUserId } from "../utilities/parsers";
 
 const Whois: Command = {
@@ -36,6 +37,7 @@ const Whois: Command = {
         await message.reply({
             embeds: [
                 {
+                    color: embedColor,
                     title: `Info on: ${user.username}#${user.discriminator}`,
                     image: { url: user.displayAvatarURL()! },
                     fields: [

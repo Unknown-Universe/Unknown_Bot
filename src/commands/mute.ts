@@ -1,38 +1,50 @@
+import ms from "ms";
+import { client } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
 import { embedColor } from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
-const kick: Command = {
-    name: "kick",
+const mute: Command = {
+    name: "mute",
     category: Category.Moderation,
-    description:
-        "kicks a user from this server, you must have the kick_members permission to run this command",
-    useage: `kick {User} [reason]`,
+    description: "Used to mute a member for a time in minutes",
+    useage: "mute {user} {time} [reason]",
     run: async (message, ...args) => {
-        if (!message.member!.permissions.has("KICK_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
-            return;
-        }
-        if (!args.length) {
-            await message.reply("No Arguments Given");
+        if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
+            await message.reply("You dont have permission to do that");
             return;
         }
 
-        const userID = parseUserId(args[0]);
+        if (args.length < 2) {
+            await message.reply("Not enough arguments given");
+            return;
+        }
+
+        const userID = parseUserId(args.shift()!);
+
+        const time = ms(args[0]);
         const reason = args.slice(1).join(" ");
+
+        if (time < 1) {
+            await message.reply("Please give a time greater then zero");
+            return;
+        }
+
         if (userID === null) {
             await message.reply("No User Given");
             return;
         }
+
         const user = await message.guild!.members.fetch(userID);
-        if (!user.kickable) {
-            await message.reply("User is not kickable");
+
+        if (!user.moderatable) {
+            await message.reply("User is not able to be muted");
             return;
         }
         if (reason.length > 512) {
-            await message.reply("Reason to Long");
+            await message.reply("Reason to long");
             return;
         }
 
@@ -42,7 +54,7 @@ const kick: Command = {
             ) <= 0
         ) {
             await message.reply(
-                "Unable to kick user with higher roles than me"
+                "Unable to mute user with higher roles than me"
             );
             return;
         }
@@ -52,19 +64,20 @@ const kick: Command = {
             ) <= 0
         ) {
             await message.reply(
-                "You cant kick users with higher roles then you"
+                "You cant mute users with higher roles then you"
             );
             return;
         }
         try {
             await user.send(
-                `You were kicked from ${message.guild!.name} ${
-                    reason.length ? `for ${reason}` : ""
-                }`
+                `You were muted for ${ms(time, { long: true })} in ${
+                    message.guild!.name
+                } ${reason.length ? `for ${reason}` : ""}`
             );
         } catch {}
-        await user.kick(reason.length ? reason : undefined);
-        await message.reply(`${user.user.tag} has been kicked`);
+        await user.timeout(time, reason || undefined);
+        await message.reply(`Muted ${user} for ${ms(time, { long: true })}`);
+
         const guild = message.guild!;
         const guildInfo = await fetchGuild(guild.id);
         if (guildInfo.do_moderation_logging) {
@@ -76,12 +89,14 @@ const kick: Command = {
                     embeds: [
                         {
                             color: embedColor,
-                            title: `User Kicked`,
+                            author: {
+                                name: user.user.username,
+                                iconURL:
+                                    user.avatarURL() ??
+                                    "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                            },
+                            title: `User Muted`,
                             fields: [
-                                {
-                                    name: "User:",
-                                    value: user.user.username,
-                                },
                                 {
                                     name: "User Id:",
                                     value: user.id,
@@ -93,12 +108,21 @@ const kick: Command = {
                                         : "No Reason Given",
                                 },
                                 {
-                                    name: "Time:",
-                                    value: `<t:${Math.floor(
-                                        Date.now() / 1000
-                                    )}>`,
+                                    name: "Time",
+                                    value: ms(time, { long: true }),
+                                },
+                                {
+                                    name: "\u200b",
+                                    value: "\u200b",
+                                    inline: false,
                                 },
                             ],
+                            footer: {
+                                text: "UnknownBot Moderation Logging",
+                                iconURL:
+                                    client.user!.avatarURL() ??
+                                    "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                            },
                         },
                     ],
                 });
@@ -107,4 +131,4 @@ const kick: Command = {
     },
 };
 
-export default kick;
+export default mute;

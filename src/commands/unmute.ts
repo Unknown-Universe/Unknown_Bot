@@ -1,3 +1,4 @@
+import { GuildMember } from "discord.js";
 import { client } from "..";
 import { Category } from "../catagories";
 import { Command } from "../command";
@@ -5,14 +6,13 @@ import { embedColor } from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
-const unban: Command = {
-    name: "unban",
+const unmute: Command = {
+    name: "unmute",
     category: Category.Moderation,
-    description:
-        "Unbans a user with {User ID} from this server, requres ban_members permission",
-    useage: `unban {User ID}`,
+    description: "Unmutes a muted user",
+    useage: `unmute {user}`,
     run: async (message, ...args) => {
-        if (!message.member!.permissions.has("BAN_MEMBERS")) {
+        if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
@@ -21,8 +21,25 @@ const unban: Command = {
             return;
         }
 
-        const userID =
-            parseUserId(args[0]) ?? args[0].match(/^(\d{17,19})$/)?.[1];
+        const userID = parseUserId(args[0]);
+        if (!userID) {
+            await message.reply("Please give a valid member");
+            return;
+        }
+
+        let member: GuildMember;
+
+        try {
+            member = await message.guild!.members.fetch(userID);
+        } catch {
+            await message.reply("User not in this server");
+            return;
+        }
+
+        if (!member.isCommunicationDisabled()) {
+            await message.reply("User not muted");
+            return;
+        }
 
         const reason = args.slice(1).join(" ");
 
@@ -31,21 +48,8 @@ const unban: Command = {
             return;
         }
 
-        if (!userID) {
-            await message.reply("No User Given");
-            return;
-        }
-        try {
-            await message.guild!.bans.fetch(userID);
-        } catch {
-            message.reply("Member not banned");
-            return;
-        }
-        await message.guild!.bans.remove(
-            userID,
-            reason.length ? reason : undefined
-        );
-        await message.reply(`User Unbanned`);
+        await member.timeout(null, reason || undefined);
+        await message.reply(`${member} was unmuted`);
 
         const guild = message.guild!;
         const guildInfo = await fetchGuild(guild.id);
@@ -60,15 +64,23 @@ const unban: Command = {
                     embeds: [
                         {
                             color: embedColor,
-                            title: `User Unbanned`,
+                            author: {
+                                name: member.user.username,
+                                iconURL:
+                                    member.avatarURL() ??
+                                    "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                            },
+                            title: `User Unmuted`,
                             fields: [
                                 {
                                     name: "User Id:",
-                                    value: userID,
+                                    value: member.user.id,
                                 },
                                 {
                                     name: "Reason:",
-                                    value: reason || "No Reason Given",
+                                    value: reason.length
+                                        ? reason
+                                        : "No Reason Given",
                                 },
                                 {
                                     name: "\u200b",
@@ -90,4 +102,4 @@ const unban: Command = {
     },
 };
 
-export default unban;
+export default unmute;

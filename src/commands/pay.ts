@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { db, fetchUser } from '../utilities/database';
+import { db, fetchUser } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
 const pay: Command = {
@@ -9,6 +9,13 @@ const pay: Command = {
     description: "Send funds to another user",
     useage: "pay {user} {amount}",
     run: async (message, ...args) => {
+        if (args.length < 2) {
+            await message.reply(
+                "Please give someone to send it to and a amount"
+            );
+            return;
+        }
+
         const receiveUserId =
             parseUserId(args[0]) ?? args[0].match(/^(\d{17,19})$/)?.[1];
 
@@ -36,8 +43,14 @@ const pay: Command = {
 
         receiveUserInfo.balance += amount;
         sendUserInfo.balance -= amount;
-        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [receiveUserInfo.balance, receiveUserInfo.id]);
-        await db.execute('UPDATE `users` SET `balance` = ? WHERE `id` = ?', [sendUserInfo.balance, sendUserInfo.id]);
+        await db.execute("UPDATE `users` SET `balance` = ? WHERE `id` = ?", [
+            receiveUserInfo.balance,
+            receiveUserInfo.id,
+        ]);
+        await db.execute("UPDATE `users` SET `balance` = ? WHERE `id` = ?", [
+            sendUserInfo.balance,
+            sendUserInfo.id,
+        ]);
     },
 };
 

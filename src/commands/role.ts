@@ -1,5 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { embedColor } from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseRoleId, parseUserId } from "../utilities/parsers";
 
@@ -45,6 +46,7 @@ const Role: Command = {
                 await channel.send({
                     embeds: [
                         {
+                            color: embedColor,
                             title: `User Given Role`,
                             fields: [
                                 {

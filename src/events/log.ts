@@ -1,4 +1,5 @@
 import { client } from "..";
+import { embedColor } from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 
 client.on("messageDelete", async (message) => {
@@ -20,21 +21,33 @@ client.on("messageDelete", async (message) => {
             await logChannel.send({
                 embeds: [
                     {
-                        title: `Message Deleted in ${message.channel.name}`,
+                        color: embedColor,
+                        author: {
+                            name: message.author.username,
+                            iconURL:
+                                message.author.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
+                        title: "Message Deleted",
+                        description: `In channel: ${message.channel}`,
                         fields: [
                             {
-                                name: "User:",
-                                value: message.member!.user.username,
-                            },
-                            {
                                 name: "Message:",
-                                value: message.content || "No Content",
+                                value: message.content,
+                                inline: false,
                             },
                             {
-                                name: "Time:",
-                                value: `<t:${Math.floor(Date.now() / 1000)}>`,
+                                name: "\u200b",
+                                value: "\u200b",
+                                inline: false,
                             },
                         ],
+                        footer: {
+                            text: "UnknownBot Message Logging",
+                            iconURL:
+                                client.user!.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
                     },
                 ],
             });
@@ -60,25 +73,38 @@ client.on("messageUpdate", async (oldMessage, newMessage) => {
             await logChannel.send({
                 embeds: [
                     {
-                        title: `Message Edit in ${oldMessage.channel.name}`,
+                        color: embedColor,
+                        author: {
+                            name: oldMessage.author.username,
+                            iconURL:
+                                oldMessage.author.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
+                        title: "Message Edit",
+                        description: `In channel: ${oldMessage.channel}`,
                         fields: [
-                            {
-                                name: "User:",
-                                value: oldMessage.member!.user.username,
-                            },
                             {
                                 name: "Old Message:",
                                 value: oldMessage.content || "No Content",
+                                inline: true,
                             },
                             {
                                 name: "New Message:",
                                 value: newMessage.content ?? "[removed]",
+                                inline: true,
                             },
                             {
-                                name: "Time:",
-                                value: `<t:${Math.floor(Date.now() / 1000)}>`,
+                                name: "\u200b",
+                                value: "\u200b",
+                                inline: false,
                             },
                         ],
+                        footer: {
+                            text: "UnknownBot Message Logging",
+                            iconURL:
+                                client.user!.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
                     },
                 ],
             });
@@ -99,12 +125,15 @@ client.on("guildBanAdd", async (ban) => {
             await logChannel.send({
                 embeds: [
                     {
+                        color: embedColor,
+                        author: {
+                            name: user.username,
+                            iconURL:
+                                user.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
                         title: `User Banned`,
                         fields: [
-                            {
-                                name: "User:",
-                                value: user.username,
-                            },
                             {
                                 name: "User Id:",
                                 value: user.id,
@@ -114,10 +143,17 @@ client.on("guildBanAdd", async (ban) => {
                                 value: reason ?? "No Reason Given",
                             },
                             {
-                                name: "Time:",
-                                value: `<t:${Math.floor(Date.now() / 1000)}>`,
+                                name: "\u200b",
+                                value: "\u200b",
+                                inline: false,
                             },
                         ],
+                        footer: {
+                            text: "UnknownBot Moderation Logging",
+                            iconURL:
+                                client.user!.avatarURL() ??
+                                "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+                        },
                     },
                 ],
             });

@@ -7,7 +7,7 @@ const log: Command = {
     name: "log",
     category: Category.Configuration,
     description: "Configures message logging",
-    useage: "[moderation, moderation]",
+    useage: "[on, off]",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to do that");
@@ -15,7 +15,7 @@ const log: Command = {
         }
 
         if (!args.length) {
-            message.reply("Useage: [moderation, moderation]");
+            message.reply("Useage: [on, off]");
             return;
         }
 

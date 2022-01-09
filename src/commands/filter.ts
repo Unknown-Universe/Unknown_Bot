@@ -1,5 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
+import { embedColor } from "../utilities/constants";
 import { db, FilteredWordData } from "../utilities/database";
 
 const example: Command = {
@@ -17,6 +18,7 @@ const example: Command = {
             await message.reply({
                 embeds: [
                     {
+                        color: embedColor,
                         title: "Filter",
                         fields: [
                             {
@@ -109,6 +111,7 @@ const example: Command = {
                 await message.reply({
                     embeds: [
                         {
+                            color: embedColor,
                             title: "Filter List",
                             description: records
                                 .map((record) => record.word)

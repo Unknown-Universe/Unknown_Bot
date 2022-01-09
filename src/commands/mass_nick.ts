@@ -13,6 +13,12 @@ const massnick: Command = {
             await message.reply("You dont have permission to do that!");
             return;
         }
+
+        if (args.length < 2) {
+            await message.reply("Not enough arguments");
+            return;
+        }
+
         const role = parseRoleId(args.shift()!);
         if (!role) {
             await message.reply("Invalid Role");
