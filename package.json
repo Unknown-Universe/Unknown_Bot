@@ -8,6 +8,7 @@
         "axios": "^0.24.0",
         "cheerio": "^1.0.0-rc.10",
         "discord.js": "^13.5.1",
+        "dissector": "^4.0.3",
         "dotenv": "^10.0.0",
         "fs": "^0.0.1-security",
         "ms": "^2.1.3",

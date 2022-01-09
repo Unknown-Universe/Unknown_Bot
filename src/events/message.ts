@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { client, commands } from "..";
+import { calc } from "../utilities/calculator";
 import {
     db,
     fetchGuild,
@@ -94,7 +95,7 @@ async function counting(message: Message, guildInfo: GuildData) {
     }
 
     const currentNumber = guildInfo.counting_number;
-    if (+message.content !== currentNumber) {
+    if (calc(message.content) !== currentNumber) {
         await message.delete();
         return;
     }
@@ -102,4 +103,5 @@ async function counting(message: Message, guildInfo: GuildData) {
         "UPDATE `guilds` SET `counting_number` = ? WHERE `id` = ?",
         [(currentNumber + 1).toString(), message.guild!.id]
     );
+    await message.react("✅");
 }
