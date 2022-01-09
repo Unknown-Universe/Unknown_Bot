@@ -34,6 +34,9 @@ export interface GuildData {
     do_message_logging: boolean;
     message_logging_channel: string;
     do_moderation_logging: boolean;
+    counting_channel: string;
+    do_counting: boolean;
+    counting_number: number;
 }
 
 export interface UserData {

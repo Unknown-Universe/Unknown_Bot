@@ -30,7 +30,7 @@ client.on("messageCreate", async (message) => {
             text = text.slice(nick.length).trimStart();
             mentioned = true;
         } else {
-            filter(message, guildData);
+            await filter(message, guildData);
             return;
         }
 
@@ -46,7 +46,7 @@ client.on("messageCreate", async (message) => {
         );
 
         if (!command) {
-            filter(message, guildData);
+            await filter(message, guildData);
             return;
         }
         await command.run(message, ...args);
@@ -78,8 +78,28 @@ async function filter(message: Message, guildData: GuildData) {
                         `${message.member!.user} that word is not allowed here`
                     );
                 }
-                break;
+                return;
             }
         }
     }
+    await counting(message, guildData);
+}
+
+async function counting(message: Message, guildInfo: GuildData) {
+    if (
+        !guildInfo.do_counting ||
+        message.channel.id !== guildInfo.counting_channel
+    ) {
+        return;
+    }
+
+    const currentNumber = guildInfo.counting_number;
+    if (+message.content !== currentNumber) {
+        await message.delete();
+        return;
+    }
+    await db.execute(
+        "UPDATE `guilds` SET `counting_number` = ? WHERE `id` = ?",
+        [(currentNumber + 1).toString(), message.guild!.id]
+    );
 }
