@@ -9,7 +9,7 @@ const counting: Command = {
     useage: "counting",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_CHANNELS")) {
-            await message.reply("You dont have permission to do that");
+            await message.reply("You dont have permission to use this command");
             return;
         }
         const guild = message.guild!;

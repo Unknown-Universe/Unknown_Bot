@@ -8,11 +8,11 @@ const purge: Command = {
     useage: `purge {number}`,
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_MESSAGES")) {
-            await message.reply("You dont have permission to use this");
+            await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("No Arguments Given");
+            await message.reply("Invalid Arguments");
             return;
         }
         if (!+args[0] || +args[0] < 1 || +args[0] > 99) {

@@ -10,7 +10,7 @@ const example: Command = {
     useage: "filter help",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_MESSAGES")) {
-            await message.reply("You dont have permission to do that");
+            await message.reply("You dont have permission to use this command");
             return;
         }
 

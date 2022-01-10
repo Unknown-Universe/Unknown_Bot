@@ -10,12 +10,12 @@ const massnick: Command = {
     useage: "massnick {role} {name}",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_NICKNAMES")) {
-            await message.reply("You dont have permission to do that!");
+            await message.reply("You dont have permission to use this command");
             return;
         }
 
         if (args.length < 2) {
-            await message.reply("Not enough arguments");
+            await message.reply("Invalid Arguments");
             return;
         }
 

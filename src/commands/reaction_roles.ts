@@ -12,11 +12,11 @@ const reactionRoles: Command = {
     useage: "",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_ROLES")) {
-            await message.reply("You dont have permission to do that");
+            await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Please ping at least one role");
+            await message.reply("Invalid Arguments");
             return;
         }
         const roles: Role[] = [];

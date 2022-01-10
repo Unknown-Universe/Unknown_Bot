@@ -13,12 +13,12 @@ const mute: Command = {
     useage: "mute {user} {time} [reason]",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
-            await message.reply("You dont have permission to do that");
+            await message.reply("You dont have permission to use this command");
             return;
         }
 
         if (args.length < 2) {
-            await message.reply("Not enough arguments given");
+            await message.reply("Invalid Arguments");
             return;
         }
 

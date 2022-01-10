@@ -1,6 +1,6 @@
 import { Category } from "../catagories";
 import { Command } from "../command";
-import { db } from '../utilities/database';
+import { db } from "../utilities/database";
 
 const prefix: Command = {
     name: "prefix",
@@ -11,7 +11,7 @@ const prefix: Command = {
         const guild = message.guild!;
 
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to run this command");
+            await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
@@ -25,7 +25,10 @@ const prefix: Command = {
             return;
         }
 
-        await db.execute('UPDATE `guilds` SET `prefix` = ? WHERE `id` = ?', [prefix, message.guildId]);
+        await db.execute("UPDATE `guilds` SET `prefix` = ? WHERE `id` = ?", [
+            prefix,
+            message.guildId,
+        ]);
         await message.reply(`Prefix changed to: ${prefix}`);
     },
 };

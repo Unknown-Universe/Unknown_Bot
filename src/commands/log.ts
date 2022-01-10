@@ -10,12 +10,12 @@ const log: Command = {
     useage: "[on, off]",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to do that");
+            await message.reply("You dont have permission to use this command");
             return;
         }
 
         if (!args.length) {
-            message.reply("Useage: [on, off]");
+            await message.reply("Invalid Arguments");
             return;
         }
 

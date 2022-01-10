@@ -11,7 +11,7 @@ const welcome: Command = {
     useage: "welcome help",
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to do that!");
+            await message.reply("You dont have permission to use this command");
             return;
         }
 

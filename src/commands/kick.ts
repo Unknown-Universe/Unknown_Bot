@@ -16,7 +16,7 @@ const kick: Command = {
             return;
         }
         if (!args.length) {
-            await message.reply("No Arguments Given");
+            await message.reply("Invalid Arguments");
             return;
         }
 
