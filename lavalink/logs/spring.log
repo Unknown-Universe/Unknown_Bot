@@ -9484,3 +9484,53 @@ Caused by: java.lang.UnsatisfiedLinkError: /private/var/folders/50/9yp8qcgx5h3fy
 2022-01-11 12:48:34.737  INFO 2447 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
 2022-01-11 12:48:45.108  INFO 2447 --- [XNIO-1 task-53] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51340
 2022-01-11 12:48:45.164  INFO 2447 --- [XNIO-1 task-53] lavalink.server.io.SocketServer          : Connection successfully established from erela.js
+2022-01-11 13:15:34.913  INFO 8714 --- [main] lavalink.server.Launcher                 : 
+
+[32m       .  [31m _                  _ _       _    [32m__ _ _
+[32m      /\\ [31m| | __ ___   ____ _| (_)_ __ | | __[32m\ \ \ \
+[32m     ( ( )[31m| |/ _` \ \ / / _` | | | '_ \| |/ /[32m \ \ \ \
+[32m      \\/ [31m| | (_| |\ V / (_| | | | | | |   < [32m  ) ) ) )
+[32m       '  [31m|_|\__,_| \_/ \__,_|_|_|_| |_|_|\_\[32m / / / /
+[0m    =========================================[32m/_/_/_/[0m
+
+	Version:        3.4
+	Build:          1257
+	Build time:     26.10.2021 14:18:37 UTC
+	Branch          master
+	Commit:         a364833
+	Commit time:    26.10.2021 14:15:20 UTC
+	JVM:            17.0.1
+	Lavaplayer      1.3.96-original
+
+2022-01-11 13:15:34.988  INFO 8714 --- [main] lavalink.server.Launcher                 : Starting Launcher on Unknown-MBP.lan with PID 8714 (/Users/zsimpson/Desktop/Developer/UnknownBot/lavalink/Lavalink.jar started by zsimpson in /Users/zsimpson/Desktop/Developer/UnknownBot/lavalink)
+2022-01-11 13:15:34.988  INFO 8714 --- [main] lavalink.server.Launcher                 : No active profile set, falling back to default profiles: default
+2022-01-11 13:15:35.051  WARN 8714 --- [background-preinit] o.s.h.c.j.Jackson2ObjectMapperBuilder    : For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-01-11 13:15:35.611  WARN 8714 --- [main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2022-01-11 13:15:35.627  INFO 8714 --- [main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2022-01-11 13:15:35.627  INFO 8714 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 601 ms
+2022-01-11 13:15:35.810  WARN 8714 --- [main] l.server.config.SentryConfiguration      : Turning off sentry
+2022-01-11 13:15:35.992  INFO 8714 --- [main] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2022-01-11 13:15:36.124  INFO 8714 --- [main] lavalink.server.config.KoeConfiguration  : OS: Mac OS X, Arch: aarch64
+2022-01-11 13:15:36.124  WARN 8714 --- [main] lavalink.server.config.KoeConfiguration  : This system and architecture appears to not support native audio sending! GC pauses may cause your bot to stutter during playback.
+2022-01-11 13:15:36.281  INFO 8714 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-01-11 13:15:36.452  INFO 8714 --- [main] org.xnio                                 : XNIO version 3.3.8.Final
+2022-01-11 13:15:36.462  INFO 8714 --- [main] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2022-01-11 13:15:36.509  INFO 8714 --- [main] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 2333 (http) with context path ''
+2022-01-11 13:15:36.511  INFO 8714 --- [main] lavalink.server.Launcher                 : Started Launcher in 1.86 seconds (JVM running for 2.202)
+2022-01-11 13:15:36.512  INFO 8714 --- [main] lavalink.server.Launcher                 : You can safely ignore the big red warning about illegal reflection. See https://github.com/freyacodes/Lavalink/issues/295
+2022-01-11 13:15:40.760  INFO 8714 --- [XNIO-1 task-1] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-01-11 13:15:40.760  INFO 8714 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-01-11 13:15:40.764  INFO 8714 --- [XNIO-1 task-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2022-01-11 13:15:40.779  INFO 8714 --- [XNIO-1 task-1] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51726
+2022-01-11 13:15:40.816  INFO 8714 --- [XNIO-1 task-1] lavalink.server.io.SocketServer          : Connection successfully established from erela.js
+2022-01-11 13:16:06.835  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"volume","guildId":"917918015440437318","volume":100}
+2022-01-11 13:16:06.940  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"sessionId":"466e227f17fa229c6138cec2e2e545ac","op":"voiceUpdate","guildId":"917918015440437318","event":{"token":"94e90b2280af40bf","guild_id":"917918015440437318","endpoint":"atlanta6198.discord.media:443"}}
+2022-01-11 13:16:07.204  INFO 8714 --- [XNIO-1 task-2] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:Owl City - Fiji Water"
+2022-01-11 13:16:07.852  INFO 8714 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: Owl City - Fiji Water
+2022-01-11 13:16:07.899  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"play","guildId":"917918015440437318","track":"QAAAiAIAJk93bCBDaXR5IC0gRmlqaSBXYXRlciAoT2ZmaWNpYWwgQXVkaW8pAAhPd2wgQ2l0eQAAAAAABANYAAtEWVJ0dk1JV1h6RQABACtodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PURZUnR2TUlXWHpFAAd5b3V0dWJlAAAAAAAAAAA="}
+2022-01-11 13:16:12.070  INFO 8714 --- [XNIO-1 task-4] l.server.player.AudioLoaderRestHandler   : Got request to load for identifier "ytsearch:nyan"
+2022-01-11 13:16:12.456  INFO 8714 --- [lava-daemon-pool-info-loader-2-thread-1] lavalink.server.player.AudioLoader       : Loaded playlist Search results for: nyan
+2022-01-11 13:16:17.282  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"stop","guildId":"917918015440437318"}
+2022-01-11 13:16:17.284  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"play","guildId":"917918015440437318","track":"QAAAdQIAE055YW4gQ2F0IFtvcmlnaW5hbF0ACE55YW4gQ2F0AAAAAAADT6gAC1FIMi1UR1Vsd3U0AAEAK2h0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9UUgyLVRHVWx3dTQAB3lvdXR1YmUAAAAAAAAAAA=="}
+2022-01-11 13:16:22.291  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"pause","guildId":"917918015440437318","pause":true}
+2022-01-11 13:16:22.292  INFO 8714 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : {"op":"destroy","guildId":"917918015440437318"}
