@@ -11,7 +11,8 @@
         "target": "esnext",
         "moduleResolution": "node",
         "outDir": "dist",
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true
     },
     "include": ["src/**/*"]
 }

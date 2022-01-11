@@ -23,6 +23,11 @@
     tslib "^2.3.1"
     zod "^3.11.6"
 
+"@discordjs/collection@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.1.6.tgz#9e9a7637f4e4e0688fd8b2b5c63133c91607682c"
+  integrity sha512-utRNxnd9kSS2qhyivo9lMlt5qgAUasH2gb7BEOn6p0efFh24gjGomHzWKMAPn2hEReOPQZCJaRKoURwRotKucQ==
+
 "@discordjs/collection@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.4.0.tgz#b6488286a1cc7b41b644d7e6086f25a1c1e6f837"
@@ -74,6 +79,13 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
+
+axios@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 axios@^0.21.1:
   version "0.21.4"
@@ -221,6 +233,28 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
+erela.js-spotify@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/erela.js-spotify/-/erela.js-spotify-1.2.0.tgz#ebbcbfde1e0eb8593d418ed9c578d758aad04701"
+  integrity sha512-FbkdVK7OquVzyNVl4aZ3AU6RHRrHzBpORGorK5q+L26y3hB/7ze9mQ7uiOa5PsskskELRWepoluqke3U8edbmQ==
+  dependencies:
+    axios "^0.20.0"
+    erela.js "^2.2.0"
+
+erela.js@^2.2.0, erela.js@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/erela.js/-/erela.js-2.3.3.tgz#22b43e29315c2fcdc8e070beda93eb3f34405c16"
+  integrity sha512-tzowGHLSodZr2j311csFSqm9lwE6plqeULTAwPwuRX9PQbXg4Ohdy/3MTMWrltiFAMSIG/5r9GQtTUt9Mqzhhw==
+  dependencies:
+    "@discordjs/collection" "^0.1.6"
+    petitio "^1.1.0"
+    ws "^7.3.1"
+
+follow-redirects@^1.10.0:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
+  integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
+
 follow-redirects@^1.14.0, follow-redirects@^1.14.4:
   version "1.14.6"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.6.tgz#8cfb281bbc035b3c067d6cd975b0f6ade6e855cd"
@@ -362,6 +396,11 @@ parse5@^6.0.1:
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-6.0.1.tgz#e1a1c085c569b3dc08321184f19a39cc27f7c30b"
   integrity sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==
 
+petitio@^1.1.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/petitio/-/petitio-1.4.0.tgz#1887cba89b95de2c61ef774a2f1baf68845ba022"
+  integrity sha512-9LaVd/5BLmbNU8Q4Ax8NezihiPt2ISNqi2vKilEchSSf+YSOXxfsLUb0SUmDskm1WkBOVTsqdyuyYI0RYKqr0Q==
+
 pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
@@ -427,6 +466,11 @@ whatwg-url@^5.0.0:
   dependencies:
     tr46 "~0.0.3"
     webidl-conversions "^3.0.0"
+
+ws@^7.3.1:
+  version "7.5.6"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.6.tgz#e59fc509fb15ddfb65487ee9765c5a51dec5fe7b"
+  integrity sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==
 
 ws@^8.4.0:
   version "8.4.0"

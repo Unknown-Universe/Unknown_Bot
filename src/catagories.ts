@@ -7,4 +7,5 @@ export const enum Category {
     Random = "Random",
     Restricted = "Restricted",
     ServerSetup = "ServerSetup",
+    Music = "Music",
 }
