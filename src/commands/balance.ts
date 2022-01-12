@@ -2,17 +2,17 @@ import { Category } from "../catagories";
 import { Command } from "../command";
 import { fetchUser } from "../utilities/database";
 
-const bal: Command = {
-    name: "bal",
+const balance: Command = {
+    name: "balance",
     category: Category.Entertainment,
-    description: "Get your current ballance",
-    useage: "bal",
-    run: async (message) => {
-        const user = message.member!;
+    description: "Shows your balance.",
+    usage: "",
+    aliases: ["bal", "money", "cash"],
 
-        const data = await fetchUser(user.id);
-        await message.reply(`Your current Ballance is: ${data.balance}`);
+    run: async (message) => {
+        const data = await fetchUser(message.author.id);
+        await message.reply(`Your balance is ${data.balance}.`);
     },
 };
 
-export default bal;
+export default balance;

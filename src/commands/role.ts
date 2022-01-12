@@ -8,14 +8,15 @@ const Role: Command = {
     name: "role",
     category: Category.Moderation,
     description: "Used to give {User} role {Role}",
-    useage: "role {User} {Role}",
+    usage: "role {User} {Role}",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_ROLES")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 

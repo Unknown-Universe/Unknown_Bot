@@ -6,7 +6,8 @@ const prefix: Command = {
     name: "prefix",
     category: Category.Configuration,
     description: "Change the prefix for your server",
-    useage: "prefix {New Prefix}",
+    usage: "prefix {New Prefix}",
+    aliases: [],
     run: async (message, ...args) => {
         const guild = message.guild!;
 

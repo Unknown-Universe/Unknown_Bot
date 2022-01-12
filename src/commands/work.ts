@@ -9,7 +9,8 @@ const work: Command = {
     name: "work",
     category: Category.Entertainment,
     description: "Work for your funds",
-    useage: "work",
+    usage: "work",
+    aliases: [],
     run: async (message) => {
         if (message.member!.user.id in timeouts) {
             if (

@@ -7,23 +7,23 @@ import { parseUserId } from "../utilities/parsers";
 const kick: Command = {
     name: "kick",
     category: Category.Moderation,
-    description:
-        "kicks a user from this server, you must have the kick_members permission to run this command",
-    useage: `kick {User} [reason]`,
+    description: "kicks a user from this server",
+    usage: "kick {User} [reason]",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("KICK_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 
         const userID = parseUserId(args[0]);
         const reason = args.slice(1).join(" ");
         if (userID === null) {
-            await message.reply("No User Given");
+            await message.reply("No user given");
             return;
         }
         const user = await message.guild!.members.fetch(userID);
@@ -42,7 +42,7 @@ const kick: Command = {
             ) <= 0
         ) {
             await message.reply(
-                "Unable to kick user with higher roles than me"
+                "Unable to kick user with higher roles than the bot"
             );
             return;
         }

@@ -7,7 +7,8 @@ const help: Command = {
     name: "help",
     description: "Shows a list of commands.",
     category: Category.Utilities,
-    useage: `help [Catagory]`,
+    usage: `help [Catagory]`,
+    aliases: [],
     run: async (message, category) => {
         const categories: Record<string, Command[]> = {};
         for (const command of commands) {
@@ -23,11 +24,7 @@ const help: Command = {
                         color: embedColor,
                         fields: Object.keys(categories)
                             .filter(
-                                (category) =>
-                                    ![
-                                        Category.Restricted,
-                                        Category.ServerSetup,
-                                    ].includes(category as Category)
+                                (category) => category !== Category.Restricted
                             )
                             .sort((a, b) => a.localeCompare(b))
                             .map((category) => {
@@ -41,8 +38,7 @@ const help: Command = {
             });
         } else {
             const key = Object.keys(categories).find(
-                (iCategory) =>
-                    iCategory.toLowerCase() === category.toLowerCase()
+                (item) => item.toLowerCase() === category.toLowerCase()
             );
             if (!key) {
                 await message.reply("That is not a valid category.");

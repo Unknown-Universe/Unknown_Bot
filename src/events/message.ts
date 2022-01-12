@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { client, commands } from "..";
+import { Category } from "../catagories";
 import { calc } from "../utilities/calculator";
 import {
     db,
@@ -42,11 +43,20 @@ client.on("messageCreate", async (message) => {
             }
             return;
         }
+
         const command = commands.find(
-            (command) => command.name.toLowerCase() === name.toLowerCase()
+            (command) =>
+                command.name.toLowerCase() === name.toLowerCase() ||
+                command.aliases.includes(name.toLowerCase())
         );
 
-        if (!command) {
+        if (
+            !command ||
+            (command.category === Category.Restricted &&
+                !(process.env.DEVELOPER_USERS ?? "")
+                    .split(/\s*,\s*/)
+                    .includes(message.author.id))
+        ) {
             await filter(message, guildData);
             return;
         }

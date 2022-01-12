@@ -6,11 +6,12 @@ const stop: Command = {
     name: "stop",
     category: Category.Music,
     description: "Used to stop the music",
-    useage: "stop",
+    usage: "stop",
+    aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("there is no player for this guild.");
+            await message.reply("There is no player for this guild.");
             return;
         }
         const { channel } = message.member!.voice;
@@ -19,7 +20,7 @@ const stop: Command = {
             return;
         }
         if (channel.id !== player.voiceChannel) {
-            await message.reply("you're not in the same voice channel.");
+            await message.reply("You're not in the same voice channel.");
             return;
         }
         player.destroy();

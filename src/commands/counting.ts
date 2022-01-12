@@ -6,7 +6,8 @@ const counting: Command = {
     name: "counting",
     category: Category.Entertainment,
     description: "Toggles the counting channel in the current channel",
-    useage: "counting",
+    usage: "counting",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_CHANNELS")) {
             await message.reply("You dont have permission to use this command");
@@ -18,12 +19,8 @@ const counting: Command = {
         if (!args.length) {
             if (!guildInfo.do_counting) {
                 await db.execute(
-                    "UPDATE `guilds` SET `counting_channel` = ? WHERE `id` = ?",
+                    "UPDATE `guilds` SET `counting_channel` = ?, `do_counting` = 1 WHERE `id` = ?",
                     [channel.id, guild.id]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `do_counting` = 1 WHERE `id` = ?",
-                    [guild.id]
                 );
                 await message.reply(
                     "Turned on counting in this channel, start at 1"
@@ -31,12 +28,8 @@ const counting: Command = {
                 return;
             } else if (guildInfo.counting_channel !== message.channel.id) {
                 await db.execute(
-                    "UPDATE `guilds` SET `counting_channel` = ? WHERE `id` = ?",
+                    "UPDATE `guilds` SET `counting_channel` = ?, `counting_number` = 1 WHERE `id` = ?",
                     [channel.id, guild.id]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `counting_number` = 1 WHERE `id` = ?",
-                    [guild.id]
                 );
                 await message.reply(
                     "Moved counting to this channel, start at 1"
@@ -44,11 +37,7 @@ const counting: Command = {
                 return;
             } else {
                 await db.execute(
-                    "UPDATE `guilds` SET `do_counting` = 0 WHERE `id` = ?",
-                    [guild.id]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `counting_number` = 1 WHERE `id` = ?",
+                    "UPDATE `guilds` SET `do_counting` = 0, `counting_number` = 1 WHERE `id` = ?",
                     [guild.id]
                 );
                 await message.reply("Turned off counting");

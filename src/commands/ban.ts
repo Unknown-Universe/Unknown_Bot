@@ -1,68 +1,80 @@
+import { GuildMember } from "discord.js";
 import { Category } from "../catagories";
 import { Command } from "../command";
+import {
+    invalidMemberMessage,
+    invalidUsageMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { parseUserId } from "../utilities/parsers";
 
 const ban: Command = {
     name: "ban",
     category: Category.Moderation,
-    description:
-        "Bans a user from this server, you must have the ban_members permission to run this command",
-    useage: `ban {User} [reason]`,
-    run: async (message, ...args) => {
-        if (!message.member!.permissions.has("BAN_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
-            return;
-        }
-        if (!args.length) {
-            await message.reply("Invalid Arguments");
-            return;
+    description: "Bans a member from this server",
+    usage: `<member> [...reason]`,
+    aliases: [],
+    run: async (message, mention, ...args) => {
+        if (!message.member!.permissions.has("BAN_MEMBERS"))
+            return await message.reply(permissionMessage);
+
+        if (!mention) return await message.reply(invalidUsageMessage);
+
+        const userId = parseUserId(mention);
+        if (!userId) return await message.reply(invalidMemberMessage);
+
+        const reason = args.join(" ");
+
+        let member: GuildMember;
+        try {
+            member = await message.guild!.members.fetch(userId);
+        } catch {
+            return await message.reply(invalidMemberMessage);
         }
 
-        const userID = parseUserId(args[0]);
-        const reason = args.slice(1).join(" ");
-        if (userID === null) {
-            await message.reply("No User Given");
-            return;
-        }
-        const member = await message.guild!.members.fetch(userID);
-        if (!member.bannable) {
-            await message.reply("User is not bannable");
-            return;
-        }
-        if (reason.length > 512) {
-            await message.reply("Reason to Long");
-            return;
-        }
+        if (!member.bannable)
+            return await message.reply("That member is not bannable.");
+
+        if (reason.length > 512)
+            return await message.reply("That reason is too long.");
+
+        if (
+            message.member!.roles.highest.comparePositionTo(
+                member.roles.highest
+            ) <= 0
+        )
+            return await message.reply(
+                "You cannot ban members with higher roles."
+            );
 
         if (
             message.guild!.me!.roles.highest.comparePositionTo(
                 member.roles.highest
             ) <= 0
-        ) {
-            await message.reply("Unable to ban user with higher roles than me");
-            return;
-        }
-        if (
-            message.member!.roles.highest.comparePositionTo(
-                member.roles.highest
-            ) <= 0
-        ) {
-            await message.reply(
-                "You cant ban users with higher roles then you"
+        )
+            return await message.reply(
+                "Cannot ban members with higher roles than the bot."
             );
-            return;
-        }
+
         try {
             await member.send(
-                `You were banned from ${message.guild!.name} ${
-                    reason.length ? `for ${reason}` : ""
-                }`
+                `You were banned from ${message.guild!.name}${
+                    reason ? ` for ${reason}` : ""
+                }.`
             );
-        } catch {}
+        } catch {
+            return await message.reply("Could not ban that member.");
+        }
+
         await member.ban({
-            reason: reason.length ? reason : undefined,
+            reason: reason || undefined,
         });
-        await message.reply(`${member.user.tag} has been banned`);
+
+        await message.reply(
+            `${member.user.tag} has been banned${
+                reason ? ` for ${reason}` : ""
+            }.`
+        );
     },
 };
 

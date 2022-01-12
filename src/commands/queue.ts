@@ -7,11 +7,12 @@ const queue: Command = {
     name: "queue",
     category: Category.Music,
     description: "Used to list the queue",
-    useage: "queue {page}",
+    usage: "queue {page}",
+    aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("there is no player for this guild.");
+            await message.reply("There is no player for this guild.");
             return;
         }
 

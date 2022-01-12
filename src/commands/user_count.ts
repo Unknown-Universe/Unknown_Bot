@@ -8,7 +8,8 @@ const usercount: Command = {
     category: Category.Configuration,
     description:
         "Makes or deletes a channel that keeps track of how many users are in the server, run usercount help for more information",
-    useage: "usercount {showbot, hidebot, showuser, hideuser, showtotal, hidetotal}",
+    usage: "usercount {showbot, hidebot, showuser, hideuser, showtotal, hidetotal}",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to use this command");
@@ -85,11 +86,7 @@ const usercount: Command = {
                     [botChannel.id, message.guildId]
                 );
                 await db.execute(
-                    "UPDATE `guilds` SET `show_bot_count` = 1 WHERE `id` = ?",
-                    [message.guildId]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `bot_count` = ? WHERE `id` = ?",
+                    "UPDATE `guilds` SET `show_bot_count` = ? WHERE `id` = ?",
                     [botCount, message.guildId]
                 );
                 await message.reply("Showing bot count");
@@ -129,16 +126,8 @@ const usercount: Command = {
                     }
                 );
                 await db.execute(
-                    "UPDATE `guilds` SET `user_count_channel_id` = ? WHERE `id` = ?",
+                    "UPDATE `guilds` SET `user_count_channel_id` = ?, `show_user_count` = 1 WHERE `id` = ?",
                     [userChannel.id, message.guildId]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `show_user_count` = 1 WHERE `id` = ?",
-                    [message.guildId]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `user_count` = ? WHERE `id` = ?",
-                    [userCount, message.guildId]
                 );
                 await message.reply("Showing user count");
                 return;
@@ -178,14 +167,6 @@ const usercount: Command = {
                 await db.execute(
                     "UPDATE `guilds` SET `total_count_channel_id` = ? WHERE `id` = ?",
                     [totalChannel.id, message.guildId]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `show_total_count` = 1 WHERE `id` = ?",
-                    [message.guildId]
-                );
-                await db.execute(
-                    "UPDATE `guilds` SET `user_count` = ? WHERE `id` = ?",
-                    [guild.memberCount, message.guildId]
                 );
                 await message.reply("Showing total count");
                 break;

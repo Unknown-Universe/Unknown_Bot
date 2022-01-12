@@ -6,17 +6,18 @@ import { db } from "../utilities/database";
 import { parseRoleId } from "../utilities/parsers";
 
 const reactionRoles: Command = {
-    name: "rr",
+    name: "reactionroles",
     category: Category.Configuration,
     description: "Makes a reaction role menu",
-    useage: "",
+    usage: "",
+    aliases: ["rr"],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_ROLES")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
         const roles: Role[] = [];
@@ -34,7 +35,7 @@ const reactionRoles: Command = {
                 }
                 roles.push(returnRole);
             } catch {
-                await message.reply("Role Dosnt exist on this server");
+                await message.reply("Role dosnt exist on this server");
             }
         }
 
@@ -52,7 +53,7 @@ const reactionRoles: Command = {
                 });
                 reactions.push(reaction.first()!.emoji);
             } catch {
-                await message.reply("Timed Out");
+                await message.reply("Timed out");
                 return;
             }
         }

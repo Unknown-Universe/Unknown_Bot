@@ -2,12 +2,14 @@ import { Category } from "../catagories";
 import { Command } from "../command";
 import { embedColor } from "../utilities/constants";
 import { db, FilteredWordData } from "../utilities/database";
+import prefix from "./prefix";
 
 const example: Command = {
     name: "filter",
     category: Category.Configuration,
     description: "Used to configure this servers filter",
-    useage: "filter help",
+    usage: "filter help",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_MESSAGES")) {
             await message.reply("You dont have permission to use this command");
@@ -54,7 +56,7 @@ const example: Command = {
             case "add":
                 if (!args.length) {
                     await message.reply(
-                        `Not enough arguments, run "filter help" to get a list of valid commands`
+                        `Not enough arguments, run "${prefix}filter help" to get a list of valid commands`
                     );
                     return;
                 }
@@ -73,7 +75,7 @@ const example: Command = {
             case "remove":
                 if (!args.length) {
                     await message.reply(
-                        `Not enough arguments, run "filter help" to get a list of valid commands`
+                        `Not enough arguments, run "${prefix}filter help" to get a list of valid commands`
                     );
                     return;
                 }

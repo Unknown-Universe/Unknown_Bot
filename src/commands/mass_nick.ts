@@ -7,7 +7,8 @@ const massnick: Command = {
     category: Category.Moderation,
     description:
         "Sets nick of everyone with a role,\nYou can use {user} to insert the orignials users name, will not change a nick if the name is too long",
-    useage: "massnick {role} {name}",
+    usage: "massnick {role} {name}",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_NICKNAMES")) {
             await message.reply("You dont have permission to use this command");
@@ -15,13 +16,13 @@ const massnick: Command = {
         }
 
         if (args.length < 2) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 
         const role = parseRoleId(args.shift()!);
         if (!role) {
-            await message.reply("Invalid Role");
+            await message.reply("Invalid role");
             return;
         }
         const response = await message.reply("This might take a while");

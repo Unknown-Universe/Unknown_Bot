@@ -20,7 +20,6 @@ export interface GuildData {
     welcome_channel: string | null;
     welcome_message: string;
     auto_role: string | null;
-    set_auto_role: boolean;
     do_filter: boolean;
     show_total_count: boolean;
     show_bot_count: boolean;

@@ -24,7 +24,7 @@ export const manager = new Manager({
         {
             host: "127.0.0.1",
             port: 2333,
-            password: "youshallnotpass",
+            password: process.env.LAVALINK_PASSWORD,
         },
     ],
     autoPlay: true,

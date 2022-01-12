@@ -5,11 +5,7 @@ client.on("guildMemberAdd", async (member) => {
     try {
         const guildInfo = await fetchGuild(member.guild.id);
 
-        if (
-            guildInfo.set_auto_role &&
-            !member.user.bot &&
-            guildInfo.auto_role
-        ) {
+        if (!member.user.bot && guildInfo.auto_role) {
             await member.roles.add(guildInfo.auto_role);
         }
 

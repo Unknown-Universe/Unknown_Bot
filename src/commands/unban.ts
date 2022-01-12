@@ -10,14 +10,15 @@ const unban: Command = {
     category: Category.Moderation,
     description:
         "Unbans a user with {User ID} from this server, requres ban_members permission",
-    useage: `unban {User ID}`,
+    usage: `unban {User ID}`,
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("BAN_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 
@@ -27,25 +28,25 @@ const unban: Command = {
         const reason = args.slice(1).join(" ");
 
         if (reason.length > 512) {
-            await message.reply("Reason to Long");
+            await message.reply("Reason to long");
             return;
         }
 
         if (!userID) {
-            await message.reply("No User Given");
+            await message.reply("No user given");
             return;
         }
         try {
             await message.guild!.bans.fetch(userID);
         } catch {
-            message.reply("Member not banned");
+            message.reply("User not banned");
             return;
         }
         await message.guild!.bans.remove(
             userID,
             reason.length ? reason : undefined
         );
-        await message.reply(`User Unbanned`);
+        await message.reply(`User unbanned`);
 
         const guild = message.guild!;
         const guildInfo = await fetchGuild(guild.id);

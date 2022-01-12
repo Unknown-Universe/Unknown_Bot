@@ -5,7 +5,8 @@ const evaluate: Command = {
     name: "eval",
     category: Category.Restricted,
     description: "",
-    useage: "",
+    usage: "",
+    aliases: [],
     run: async (message, ...args) => {
         if (
             !(

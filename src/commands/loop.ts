@@ -6,7 +6,8 @@ const loop: Command = {
     name: "loop",
     category: Category.Music,
     description: "loop",
-    useage: "loop [queue]",
+    usage: "loop [queue]",
+    aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {

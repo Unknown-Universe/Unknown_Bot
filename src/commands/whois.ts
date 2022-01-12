@@ -9,7 +9,8 @@ const Whois: Command = {
     name: "whois",
     category: Category.Information,
     description: "Get information on {user}",
-    useage: "whois {user}",
+    usage: "whois {user}",
+    aliases: [],
     run: async (message, userPing) => {
         if (!userPing) {
             userPing = `<@${message.member!.user.id}>`;
@@ -25,7 +26,7 @@ const Whois: Command = {
         try {
             user = await client.users.fetch(userID);
         } catch {
-            await message.reply("Unknown User");
+            await message.reply("Unknown user");
             return;
         }
         let member: GuildMember | null = null;

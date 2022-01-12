@@ -10,7 +10,8 @@ const mute: Command = {
     name: "mute",
     category: Category.Moderation,
     description: "Used to mute a member for a time in minutes",
-    useage: "mute {user} {time} [reason]",
+    usage: "mute {user} {time} [reason]",
+    aliases: ["timeout"],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
@@ -18,7 +19,7 @@ const mute: Command = {
         }
 
         if (args.length < 2) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 
@@ -27,13 +28,13 @@ const mute: Command = {
         const time = ms(args[0]);
         const reason = args.slice(1).join(" ");
 
-        if (time < 1) {
-            await message.reply("Please give a time greater then zero");
+        if (userID === null) {
+            await message.reply("No user given");
             return;
         }
 
-        if (userID === null) {
-            await message.reply("No User Given");
+        if (time < 1) {
+            await message.reply("Please give a time greater then zero");
             return;
         }
 

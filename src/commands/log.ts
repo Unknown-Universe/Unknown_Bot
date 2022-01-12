@@ -7,7 +7,8 @@ const log: Command = {
     name: "log",
     category: Category.Configuration,
     description: "Configures message logging",
-    useage: "[on, off]",
+    usage: "[on, off]",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to use this command");
@@ -15,7 +16,7 @@ const log: Command = {
         }
 
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 

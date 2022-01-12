@@ -6,7 +6,8 @@ const pause: Command = {
     name: "pause",
     category: Category.Music,
     description: "Used to pause the current music playing",
-    useage: "pause",
+    usage: "pause",
+    aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {

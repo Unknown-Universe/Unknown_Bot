@@ -10,14 +10,15 @@ const unmute: Command = {
     name: "unmute",
     category: Category.Moderation,
     description: "Unmutes a muted user",
-    useage: `unmute {user}`,
+    usage: `unmute {user}`,
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
             await message.reply("You dont have permission to use this command");
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid Arguments");
+            await message.reply("Invalid arguments");
             return;
         }
 

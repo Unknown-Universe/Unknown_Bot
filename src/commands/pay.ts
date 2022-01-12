@@ -7,7 +7,8 @@ const pay: Command = {
     name: "pay",
     category: Category.Entertainment,
     description: "Send funds to another user",
-    useage: "pay {user} {amount}",
+    usage: "pay {user} {amount}",
+    aliases: [],
     run: async (message, ...args) => {
         if (args.length < 2) {
             await message.reply(

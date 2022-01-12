@@ -6,24 +6,25 @@ const skip: Command = {
     name: "skip",
     category: Category.Music,
     description: "Used to skip the current song in the queue",
-    useage: "skip",
+    usage: "skip",
+    aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("there is no player for this guild.");
+            await message.reply("There is no player for this guild.");
             return;
         }
         const { channel } = message.member!.voice;
         if (!channel) {
-            await message.reply("you need to join a voice channel.");
+            await message.reply("You need to join a voice channel.");
             return;
         }
         if (channel.id !== player.voiceChannel) {
-            await message.reply("you're not in the same voice channel.");
+            await message.reply("You're not in the same voice channel.");
             return;
         }
         if (!player.queue.current) {
-            await message.reply("there is no music playing.");
+            await message.reply("There is no music playing.");
             return;
         }
         const { title } = player.queue.current;

@@ -32,7 +32,8 @@ const meme: Command = {
     name: "meme",
     category: Category.Entertainment,
     description: "Fetches the newest memes, all from r/meme and r/memes",
-    useage: "meme",
+    usage: "meme",
+    aliases: [],
     run: async (message) => {
         let meme: Meme;
         do {

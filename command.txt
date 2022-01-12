@@ -6,7 +6,7 @@ const example: Command = {
     name: "",
     category: Category.,
     description: "",
-    useage: "",
+    usage: "",
     run: async (message, ...args) => { }
 }
 

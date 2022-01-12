@@ -6,7 +6,8 @@ const remove: Command = {
     name: "remove",
     category: Category.Music,
     description: "remove",
-    useage: "remove {index}",
+    usage: "remove {index}",
+    aliases: [],
     run: async (message, songIndex) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
@@ -17,15 +18,15 @@ const remove: Command = {
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            message.reply("you need to join a voice channel.");
+            message.reply("You need to join a voice channel.");
             return;
         }
         if (channel.id !== player.voiceChannel) {
-            await message.reply("you're not in the same voice channel.");
+            await message.reply("You're not in the same voice channel.");
             return;
         }
         if (!player.queue.current) {
-            await message.reply("there is no music playing.");
+            await message.reply("There is no music playing.");
             return;
         }
         const index = +songIndex;

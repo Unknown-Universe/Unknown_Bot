@@ -8,7 +8,8 @@ const welcome: Command = {
     name: "welcome",
     category: Category.Configuration,
     description: "Configures the servers welcome message",
-    useage: "welcome help",
+    usage: "welcome help",
+    aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
             await message.reply("You dont have permission to use this command");
@@ -71,7 +72,7 @@ const welcome: Command = {
                     ]
                 );
                 await message.reply(
-                    `I will ${
+                    `The bot will ${
                         args[0].toLowerCase() === "false"
                             ? "no longer welcome"
                             : "now welcome"
