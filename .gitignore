@@ -4,3 +4,4 @@ dist/
 yarn-error.log
 .env
 lavalink/logs
+lavalink/application.yml
