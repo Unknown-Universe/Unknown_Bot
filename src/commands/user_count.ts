@@ -1,6 +1,6 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { embedColor, permissionMessage } from "../utilities/constants";
 import { db, fetchGuild } from "../utilities/database";
 
 const usercount: Command = {
@@ -8,11 +8,11 @@ const usercount: Command = {
     category: Category.Configuration,
     description:
         "Makes or deletes a channel that keeps track of how many users are in the server, run usercount help for more information",
-    usage: "usercount {showbot, hidebot, showuser, hideuser, showtotal, hidetotal}",
+    usage: "<showbot, hidebot, showuser, hideuser, showtotal, hidetotal>",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length || args[0].toLowerCase() === "help") {

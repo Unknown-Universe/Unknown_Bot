@@ -1,6 +1,10 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidUsageMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
@@ -8,22 +12,22 @@ const kick: Command = {
     name: "kick",
     category: Category.Moderation,
     description: "kicks a user from this server",
-    usage: "kick {User} [reason]",
+    usage: "<User> [...reason]",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("KICK_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
 
         const userID = parseUserId(args[0]);
         const reason = args.slice(1).join(" ");
         if (userID === null) {
-            await message.reply("No user given");
+            await message.reply(invalidUsageMessage);
             return;
         }
         const user = await message.guild!.members.fetch(userID);

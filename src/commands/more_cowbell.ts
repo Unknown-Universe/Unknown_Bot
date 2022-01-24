@@ -1,5 +1,5 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 
 const morecowbell: Command = {
     name: "morecowbell",

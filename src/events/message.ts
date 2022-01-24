@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { client, commands } from "..";
-import { Category } from "../catagories";
+import { Category } from "../types/catagories";
 import { calc } from "../utilities/calculator";
 import {
     db,
@@ -60,6 +60,23 @@ client.on("messageCreate", async (message) => {
             await filter(message, guildData);
             return;
         }
+
+        if (args[0] === "usage" && command.usage.length) {
+            await message.reply(`Usage: ${prefix}${command.usage}`);
+            return;
+        } else if (args[0] === "aliases") {
+            await message.reply(
+                `Aliases: ${
+                    prefix +
+                    command.name +
+                    ", " +
+                    prefix +
+                    command.aliases.join(`, ${prefix}`)
+                }`
+            );
+            return;
+        }
+
         await command.run(message, ...args);
     } catch (error) {
         message.reply(`Unknown Error ${error}`);

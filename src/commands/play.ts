@@ -1,21 +1,22 @@
 import { Message } from "discord.js";
 import { Track } from "erela.js";
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { invalidUserVoiceChannelMessage } from "../utilities/constants";
 
 const play: Command = {
     name: "play",
     category: Category.Music,
     description:
         "Used to play a song using a link to a video, or spotify song or playlist",
-    usage: "play {link, playlist}",
+    usage: "<link or playlist>",
     aliases: [],
     run: async (message, ...args) => {
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            await message.reply("You need to join a voice channel.");
+            await message.reply(invalidUserVoiceChannelMessage);
             return;
         }
         if (!args.length) {

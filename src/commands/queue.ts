@@ -1,18 +1,18 @@
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { embedColor, noPlayerInGuild } from "../utilities/constants";
 
 const queue: Command = {
     name: "queue",
     category: Category.Music,
     description: "Used to list the queue",
-    usage: "queue {page}",
+    usage: "[page]",
     aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("There is no player for this guild.");
+            await message.reply(noPlayerInGuild);
             return;
         }
 
@@ -20,7 +20,7 @@ const queue: Command = {
 
         // change for the amount of tracks per page
         const multiple = 10;
-        const page = args.length && Number(args[0]) ? Number(args[0]) : 1;
+        const page = args.length && +args[0] ? +args[0] : 1;
 
         const end = page * multiple;
         const start = end - multiple;

@@ -1,28 +1,38 @@
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    invalidUserVoiceChannelMessage,
+    noPlayerInGuild,
+    voiceChannelPermissionMessage,
+} from "../utilities/constants";
+import { voiceChannelPermissionCheck } from "../utilities/parsers";
 
 const resume: Command = {
     name: "resume",
     category: Category.Music,
     description: "used to restart the music",
-    usage: "resume",
-    aliases: [],
+    usage: "",
+    aliases: ["unpause"],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("There is no player for this guild.");
+            await message.reply(noPlayerInGuild);
             return;
         }
 
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            message.reply("You need to join a voice channel.");
+            message.reply(invalidUserVoiceChannelMessage);
             return;
         }
+
+        if (voiceChannelPermissionCheck(channel!, message))
+            return await message.reply(voiceChannelPermissionMessage);
+
         if (channel.id !== player.voiceChannel) {
-            await message.reply("You're not in the same voice channel.");
+            await message.reply(invalidUserVoiceChannelMessage);
             return;
         }
         if (!player.paused) {

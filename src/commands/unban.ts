@@ -1,7 +1,12 @@
 import { client } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidUsageMessage,
+    invalidUserMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
@@ -10,15 +15,15 @@ const unban: Command = {
     category: Category.Moderation,
     description:
         "Unbans a user with {User ID} from this server, requres ban_members permission",
-    usage: `unban {User ID}`,
+    usage: `<user ID>`,
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("BAN_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
 
@@ -33,7 +38,7 @@ const unban: Command = {
         }
 
         if (!userID) {
-            await message.reply("No user given");
+            await message.reply(invalidUserMessage);
             return;
         }
         try {

@@ -1,15 +1,15 @@
 import { GuildMember, User } from "discord.js";
 import { client } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { embedColor, invalidUserMessage } from "../utilities/constants";
 import { parseUserId } from "../utilities/parsers";
 
 const Whois: Command = {
     name: "whois",
     category: Category.Information,
     description: "Get information on {user}",
-    usage: "whois {user}",
+    usage: "[user]",
     aliases: [],
     run: async (message, userPing) => {
         if (!userPing) {
@@ -19,7 +19,7 @@ const Whois: Command = {
         const userID = parseUserId(userPing);
 
         if (!userID) {
-            await message.reply("Not a valid user");
+            await message.reply(invalidUserMessage);
             return;
         }
         let user: User;

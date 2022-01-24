@@ -1,11 +1,11 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 
 const cowabunga: Command = {
     name: "cowabunga",
     category: Category.Random,
     description: ";)",
-    usage: "cowabunga",
+    usage: "",
     aliases: [],
     run: async (message) => {
         await message.reply("Deez nuts");

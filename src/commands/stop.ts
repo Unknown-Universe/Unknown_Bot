@@ -1,31 +1,37 @@
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    invalidUserVoiceChannelMessage,
+    noPlayerInGuild,
+    voiceChannelPermissionMessage,
+} from "../utilities/constants";
+import { voiceChannelPermissionCheck } from "../utilities/parsers";
 
 const stop: Command = {
     name: "stop",
     category: Category.Music,
     description: "Used to stop the music",
-    usage: "stop",
+    usage: "",
     aliases: [],
-    run: async (message, ...args) => {
+    run: async (message) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("There is no player for this guild.");
-            return;
+            return await message.reply(noPlayerInGuild);
         }
         const { channel } = message.member!.voice;
         if (!channel) {
-            await message.reply("you need to join a voice channel.");
-            return;
+            return await message.reply(invalidUserVoiceChannelMessage);
         }
+
+        if (voiceChannelPermissionCheck(channel!, message))
+            return await message.reply(voiceChannelPermissionMessage);
+
         if (channel.id !== player.voiceChannel) {
-            await message.reply("You're not in the same voice channel.");
-            return;
+            return await message.reply(invalidUserVoiceChannelMessage);
         }
         player.destroy();
-        await message.reply("Music Stoped");
-        return;
+        return await message.reply("Music Stoped");
     },
 };
 

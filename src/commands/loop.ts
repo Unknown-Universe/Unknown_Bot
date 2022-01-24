@@ -1,12 +1,17 @@
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    invalidUserVoiceChannelMessage,
+    voiceChannelPermissionMessage,
+} from "../utilities/constants";
+import { voiceChannelPermissionCheck } from "../utilities/parsers";
 
 const loop: Command = {
     name: "loop",
     category: Category.Music,
     description: "loop",
-    usage: "loop [queue]",
+    usage: "[queue]",
     aliases: [],
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
@@ -18,11 +23,15 @@ const loop: Command = {
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            message.reply("you need to join a voice channel.");
+            message.reply(invalidUserVoiceChannelMessage);
             return;
         }
-        if (channel.id !== player.voiceChannel) {
-            await message.reply("you're not in the same voice channel.");
+
+        if (voiceChannelPermissionCheck(channel!, message))
+            return await message.reply(voiceChannelPermissionMessage);
+
+        if (channel!.id !== player.voiceChannel) {
+            await message.reply(invalidUserVoiceChannelMessage);
             return;
         }
 

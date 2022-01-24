@@ -1,6 +1,6 @@
 import { client, commands } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { embed } from "../utilities/embed";
 
 const botInfo: Command = {
@@ -8,7 +8,7 @@ const botInfo: Command = {
     category: Category.Information,
     description: "Shows information about the bot.",
     usage: "",
-    aliases: ["bot", "info", "unknownbot"],
+    aliases: ["info", "unknownbot"],
     run: async (message) => {
         await message.reply(
             embed({

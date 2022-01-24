@@ -1,12 +1,12 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { db, fetchGuild } from "../utilities/database";
 
 const counting: Command = {
     name: "counting",
     category: Category.Entertainment,
     description: "Toggles the counting channel in the current channel",
-    usage: "counting",
+    usage: "",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_CHANNELS")) {

@@ -1,8 +1,13 @@
 import ms from "ms";
 import { client } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidUsageMessage,
+    invalidUserMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
@@ -10,16 +15,16 @@ const mute: Command = {
     name: "mute",
     category: Category.Moderation,
     description: "Used to mute a member for a time in minutes",
-    usage: "mute {user} {time} [reason]",
+    usage: "<user> <time> [reason]",
     aliases: ["timeout"],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
 
         if (args.length < 2) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
 
@@ -29,7 +34,7 @@ const mute: Command = {
         const reason = args.slice(1).join(" ");
 
         if (userID === null) {
-            await message.reply("No user given");
+            await message.reply(invalidUserMessage);
             return;
         }
 

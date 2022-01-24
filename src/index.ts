@@ -3,7 +3,7 @@ import { Manager, Player } from "erela.js";
 import Spotify from "erela.js-spotify";
 import fs from "fs";
 import path from "path";
-import { Command } from "./command";
+import { Command } from "./types/command";
 import "./utilities/database";
 
 export const client = new Client({
@@ -85,6 +85,10 @@ client.once("ready", async () => {
     console.log("Bot Online");
     manager.init(client.user?.id);
     client.user!.setActivity({ type: "WATCHING", name: "Over Your Servers" });
+});
+
+process.on("unhandledRejection", (error) => {
+    console.error("Unhandled promise rejection:", error);
 });
 
 client.on("raw", (d) => manager.updateVoiceState(d));
