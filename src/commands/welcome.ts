@@ -1,6 +1,10 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidChannelMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { db, fetchGuild } from "../utilities/database";
 import { parseChannelId } from "../utilities/parsers";
 
@@ -8,11 +12,11 @@ const welcome: Command = {
     name: "welcome",
     category: Category.Configuration,
     description: "Configures the servers welcome message",
-    usage: "welcome help",
+    usage: "[help]",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
 
@@ -81,18 +85,18 @@ const welcome: Command = {
                 return;
             case "channel":
                 if (!args.length) {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
                 const channelID = parseChannelId(args[0]);
 
                 if (!channelID) {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
 
                 if (!(await message.guild?.channels.fetch())!.has(channelID)) {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
 

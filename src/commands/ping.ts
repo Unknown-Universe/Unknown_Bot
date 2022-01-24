@@ -1,12 +1,12 @@
 import { client } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 
 const ping: Command = {
     name: "ping",
     category: Category.Utilities,
     description: "Gets the current latincy of the bot",
-    usage: "ping",
+    usage: "",
     aliases: [],
     run: async (message) => {
         const yourping = Date.now() - message.createdTimestamp;

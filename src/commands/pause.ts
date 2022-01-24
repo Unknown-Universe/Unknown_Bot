@@ -1,6 +1,12 @@
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    invalidUserVoiceChannelMessage,
+    noPlayerInGuild,
+    voiceChannelPermissionMessage,
+} from "../utilities/constants";
+import { voiceChannelPermissionCheck } from "../utilities/parsers";
 
 const pause: Command = {
     name: "pause",
@@ -11,27 +17,26 @@ const pause: Command = {
     run: async (message, ...args) => {
         const player = manager.get(message.guild!.id);
         if (!player) {
-            await message.reply("there is no player for this guild.");
-            return;
+            return await message.reply(noPlayerInGuild);
         }
 
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            message.reply("you need to join a voice channel.");
-            return;
+            return message.reply(invalidUserVoiceChannelMessage);
         }
+
+        if (voiceChannelPermissionCheck(channel!, message))
+            return await message.reply(voiceChannelPermissionMessage);
+
         if (channel.id !== player.voiceChannel) {
-            await message.reply("you're not in the same voice channel.");
-            return;
+            return await message.reply(invalidUserVoiceChannelMessage);
         }
         if (player.paused) {
-            await message.reply("the player is already paused.");
-            return;
+            return await message.reply("The music is already paused.");
         }
         player.pause(true);
-        await message.reply("paused the player.");
-        return;
+        return await message.reply("Paused the music.");
     },
 };
 

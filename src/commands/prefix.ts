@@ -1,18 +1,19 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { permissionMessage } from "../utilities/constants";
 import { db } from "../utilities/database";
 
 const prefix: Command = {
     name: "prefix",
     category: Category.Configuration,
     description: "Change the prefix for your server",
-    usage: "prefix {New Prefix}",
+    usage: "<new prefix>",
     aliases: [],
     run: async (message, ...args) => {
         const guild = message.guild!;
 
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length) {

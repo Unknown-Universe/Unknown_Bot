@@ -1,5 +1,6 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { invalidUserMessage } from "../utilities/constants";
 import { db, fetchUser } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
@@ -7,13 +8,11 @@ const pay: Command = {
     name: "pay",
     category: Category.Entertainment,
     description: "Send funds to another user",
-    usage: "pay {user} {amount}",
+    usage: "<user> <amount>",
     aliases: [],
     run: async (message, ...args) => {
         if (args.length < 2) {
-            await message.reply(
-                "Please give someone to send it to and a amount"
-            );
+            await message.reply(invalidUserMessage);
             return;
         }
 
@@ -25,7 +24,7 @@ const pay: Command = {
         const sendUserInfo = await fetchUser(sendUser.id);
 
         if (!receiveUserId) {
-            await message.reply("Please give a actual user to send to");
+            await message.reply(invalidUserMessage);
             return;
         }
 

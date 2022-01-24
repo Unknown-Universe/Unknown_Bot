@@ -1,13 +1,13 @@
 import { commands } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { embedColor } from "../utilities/constants";
 
 const help: Command = {
     name: "help",
     description: "Shows a list of commands.",
     category: Category.Utilities,
-    usage: `help [Catagory]`,
+    usage: `[catagory]`,
     aliases: [],
     run: async (message, category) => {
         const categories: Record<string, Command[]> = {};

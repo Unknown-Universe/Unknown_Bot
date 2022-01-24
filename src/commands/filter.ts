@@ -1,5 +1,5 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { embedColor } from "../utilities/constants";
 import { db, FilteredWordData } from "../utilities/database";
 import prefix from "./prefix";
@@ -8,7 +8,7 @@ const example: Command = {
     name: "filter",
     category: Category.Configuration,
     description: "Used to configure this servers filter",
-    usage: "filter help",
+    usage: "[help]",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_MESSAGES")) {

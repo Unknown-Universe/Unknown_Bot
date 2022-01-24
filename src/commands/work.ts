@@ -1,6 +1,6 @@
 import ms from "ms";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { db, fetchUser } from "../utilities/database";
 
 const timeouts: Record<string, number> = {};
@@ -9,7 +9,7 @@ const work: Command = {
     name: "work",
     category: Category.Entertainment,
     description: "Work for your funds",
-    usage: "work",
+    usage: "",
     aliases: [],
     run: async (message) => {
         if (message.member!.user.id in timeouts) {

@@ -1,7 +1,7 @@
 import { TextChannel } from "discord.js";
 import RedditImageFetcher from "reddit-image-fetcher";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { embedColor } from "../utilities/constants";
 
 interface Meme {
@@ -32,7 +32,7 @@ const meme: Command = {
     name: "meme",
     category: Category.Entertainment,
     description: "Fetches the newest memes, all from r/meme and r/memes",
-    usage: "meme",
+    usage: "",
     aliases: [],
     run: async (message) => {
         let meme: Meme;

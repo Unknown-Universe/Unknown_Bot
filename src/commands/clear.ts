@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
 import { invalidUsageMessage, permissionMessage } from "../utilities/constants";
 
 const clear: Command = {

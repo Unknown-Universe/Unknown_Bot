@@ -1,7 +1,12 @@
 import { Emoji, Role } from "discord.js";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidRoleMessage,
+    invalidUsageMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { db } from "../utilities/database";
 import { parseRoleId } from "../utilities/parsers";
 
@@ -13,11 +18,11 @@ const reactionRoles: Command = {
     aliases: ["rr"],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_ROLES")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
         const roles: Role[] = [];
@@ -30,12 +35,12 @@ const reactionRoles: Command = {
             try {
                 const returnRole = await message.guild!.roles.fetch(parsedRole);
                 if (!returnRole) {
-                    await message.reply("Role dosnt exist on this sever");
+                    await message.reply(invalidRoleMessage);
                     return;
                 }
                 roles.push(returnRole);
             } catch {
-                await message.reply("Role dosnt exist on this server");
+                await message.reply(invalidRoleMessage);
             }
         }
 

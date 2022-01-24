@@ -1,8 +1,12 @@
 import { GuildMember } from "discord.js";
 import { client } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidUsageMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
 import { parseUserId } from "../utilities/parsers";
 
@@ -10,15 +14,15 @@ const unmute: Command = {
     name: "unmute",
     category: Category.Moderation,
     description: "Unmutes a muted user",
-    usage: `unmute {user}`,
+    usage: "",
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MODERATE_MEMBERS")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
         if (!args.length) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
 

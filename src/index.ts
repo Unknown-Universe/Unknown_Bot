@@ -3,7 +3,7 @@ import { Manager, Player } from "erela.js";
 import Spotify from "erela.js-spotify";
 import fs from "fs";
 import path from "path";
-import { Command } from "./command";
+import { Command } from "./types/command";
 import "./utilities/database";
 
 export const client = new Client({

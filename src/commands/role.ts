@@ -1,38 +1,42 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
-import { embedColor } from "../utilities/constants";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    embedColor,
+    invalidRoleMessage,
+    invalidUsageMessage,
+    invalidUserMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { fetchGuild } from "../utilities/database";
-import { parseRoleId, parseUserId } from "../utilities/parsers";
 
 const Role: Command = {
     name: "role",
     category: Category.Moderation,
-    description: "Used to give {User} role {Role}",
-    usage: "role {User} {Role}",
+    description: "Used to give a user a role",
+    usage: "<user> <Role>",
     aliases: [],
-    run: async (message, ...args) => {
+    run: async (message, user, role) => {
         if (!message.member!.permissions.has("MANAGE_ROLES")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
-        if (!args.length) {
-            await message.reply("Invalid arguments");
+        if (!user.length || !role.length) {
+            await message.reply(invalidUsageMessage);
             return;
         }
-
-        const user = parseUserId(args[0])!;
-        const role = parseRoleId(args[1])!;
 
         if (!(await message.guild!.members.fetch()).has(user)) {
-            await message.reply("Please give a valid user");
+            await message.reply(invalidUserMessage);
             return;
         }
         if (!(await message.guild!.roles.fetch()).has(role)) {
-            await message.reply("Please give a valid role");
+            await message.reply(invalidRoleMessage);
             return;
         }
-        const fetchedUser = await message.guild!.members.fetch(user);
-        const fetchedRole = await message.guild!.roles.fetch(role);
+
+        const fetchedUser = message.guild!.members.cache.get(user)!;
+
+        const fetchedRole = message.guild!.roles.cache.get(role)!;
 
         await fetchedUser.roles.add(fetchedRole!);
         message.reply(`Gave ${fetchedUser}: ${fetchedRole}`);

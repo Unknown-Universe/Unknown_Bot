@@ -1,5 +1,10 @@
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import {
+    invalidChannelMessage,
+    invalidUsageMessage,
+    permissionMessage,
+} from "../utilities/constants";
 import { db, fetchGuild } from "../utilities/database";
 import { parseChannelId } from "../utilities/parsers";
 
@@ -11,12 +16,12 @@ const log: Command = {
     aliases: [],
     run: async (message, ...args) => {
         if (!message.member!.permissions.has("MANAGE_GUILD")) {
-            await message.reply("You dont have permission to use this command");
+            await message.reply(permissionMessage);
             return;
         }
 
         if (!args.length) {
-            await message.reply("Invalid arguments");
+            await message.reply(invalidUsageMessage);
             return;
         }
 
@@ -111,18 +116,18 @@ const log: Command = {
                 break;
             case "channel":
                 if (!args.length) {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
                 const channel = await guild.channels.fetch(
                     parseChannelId(args[0])!
                 );
                 if (!channel) {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
                 if (channel.type !== "GUILD_TEXT") {
-                    await message.reply("Please give a valid channel");
+                    await message.reply(invalidChannelMessage);
                     return;
                 }
                 await db.execute(

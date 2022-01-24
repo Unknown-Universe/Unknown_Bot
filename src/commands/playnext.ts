@@ -1,21 +1,22 @@
 import { Message } from "discord.js";
 import { Track } from "erela.js";
 import { manager } from "..";
-import { Category } from "../catagories";
-import { Command } from "../command";
+import { Category } from "../types/catagories";
+import { Command } from "../types/command";
+import { invalidUserVoiceChannelMessage } from "../utilities/constants";
 
 const playnext: Command = {
     name: "playnext",
     category: Category.Music,
     description:
         "Used to play a song right after the current song using a link",
-    usage: "playnext {link}",
+    usage: "<link>",
     aliases: ["playtop"],
     run: async (message, ...args) => {
         const { channel } = message.member!.voice;
 
         if (!channel) {
-            await message.reply("You need to join a voice channel.");
+            await message.reply(invalidUserVoiceChannelMessage);
             return;
         }
         if (!args.length) {
